@@ -8,11 +8,17 @@ import { NavigationContainer } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
+  
+
+
 export default function App() {
   return (
-    <NavigationContainer>
+      <NavigationContainer>
+    {/* </NavigationContainer> */}
       <Tab.Navigator 
         tabBarOptions = {{
+          tabBarLabel:'Home',
+          title:'hello',
           labelStyle: {
             fontSize: 25,
           },
