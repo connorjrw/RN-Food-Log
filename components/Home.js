@@ -3,18 +3,16 @@ import { StyleSheet, Text, View, Header } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFocusEffect } from '@react-navigation/native';
 const axios = require('axios');
-const api = "http://connor.local:3000/"
+const api = "http://localhost:3000/"
 
 const Stack = createStackNavigator();
 
-function HomeScreen(){
+function HomeScreen() {
   const [data, setData] = useState([]);
   useFocusEffect(
     React.useCallback(() => {
-      let isMounted = true; // note this flag denote mount status
-      // alert('Screen was focused');
+      let isMounted = true; 
       axios.get(api + "recipes").then(response => {
-        console.log(response.data)
         setData(response.data)
       }).catch(err => {
         console.log(err)
@@ -26,11 +24,11 @@ function HomeScreen(){
       };
     }, [])
   );
-  return  (  
-          <View style = {styles.container}>
-          <Text style = {styles.header}></Text> 
-          {data.map(data => <Text key = {data._id} style = {styles.item}>{data.name}</Text>)}
-      </View>)
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}></Text>
+      {data.map(data => <Text key={data._id} style={styles.item}>{data.name}</Text>)}
+    </View>)
 }
 
 export default function Home() {
@@ -41,37 +39,37 @@ export default function Home() {
         name="Home"
         component={HomeScreen}
         options={
-          { 
-            title: 'Recipes', 
+          {
+            title: 'Food',
             headerStyle: {
               backgroundColor: '#add8e6',
-              // paddingVertical:20
+              height: 88
             },
-            headerTitleStyle:{
-              fontSize:30,
-              textAlign:'left'
+            headerTitleStyle: {
+              fontSize: 23,
+              textAlign: 'left'
             }
+          }
         }
-        }
-        
+
       />
     </Stack.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      // backgroundColor: '#add8e6',
-      alignItems: 'center',
-    },
-    header:{
-          marginTop:100,
-          fontSize:50
-    },
-    item: {
-      fontSize:30
-    }
-  });
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    alignItems: 'center',
+  },
+  header: {
+    marginTop: 100,
+    fontSize: 50
+  },
+  item: {
+    fontSize: 30
+  }
+});
 
 
