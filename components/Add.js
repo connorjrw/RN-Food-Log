@@ -17,13 +17,13 @@ function Add() {
   // const { register, handleSubmit } = useForm();
   // const onSubmit = (data) => alert(JSON.stringify(data));
   const [name, nameOnChange] = React.useState('Name');
-  const [desciption, descOnChange] = React.useState('Description')
+  const [description, descOnChange] = React.useState('Description')
 
   function AddPress() {
-    console.log(name, desciption)
+    console.log(name, description)
     axios.post(api + 'addrecipe', {
       name: name,
-      desciption: desciption
+      description: description
     }).then(res => {
       console.log(res)
     }).catch(err => {
@@ -41,8 +41,8 @@ function Add() {
       </TextInput>
       <TextInput
         style={styles.input}
-        onChangeText={desciption => descOnChange(desciption)}
-        value={desciption}>
+        onChangeText={description => descOnChange(description)}
+        value={description}>
       </TextInput>
 
       <TouchableOpacity
