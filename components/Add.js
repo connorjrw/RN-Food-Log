@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect } from 'react';
 const axios = require('axios');
-const api = "http://localhost:3000/"
+const api = "http://connor.local:3000/"
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { StyleSheet, Text, View, Form, Label, TextInput, TouchableOpacity } from 'react-native';
+import ImagePickerComponent from './ImagePickerComponent'
 
 import { useForm } from "react-hook-form";
 
@@ -16,14 +17,21 @@ const Stack = createStackNavigator();
 function Add() {
   // const { register, handleSubmit } = useForm();
   // const onSubmit = (data) => alert(JSON.stringify(data));
+
   const [name, nameOnChange] = React.useState('Name');
-  const [description, descOnChange] = React.useState('Description')
+  const [description, descOnChange] = React.useState('Desc')
+  const [photo, updatePhoto] = React.useState('Photo')
+
+  
+  
 
   function AddPress() {
-    console.log(name, description)
+    console.log(name, description, photo)
     axios.post(api + 'addrecipe', {
       name: name,
-      description: description
+      description: description,
+      photoLocation:photo.uri,
+      fileName:photo.fileName
     }).then(res => {
       console.log(res)
     }).catch(err => {
@@ -31,20 +39,24 @@ function Add() {
     })
   }
 
-
   return (
     <View style={styles.container}>
+      {/* <Text>Name</Text> */}
       <TextInput
+        multiline = {true}
         style={styles.input}
         onChangeText={name => nameOnChange(name)}
         value={name}>
       </TextInput>
       <TextInput
+        multiline={true}
+        numberOfLines={1}
         style={styles.input}
         onChangeText={description => descOnChange(description)}
         value={description}>
       </TextInput>
 
+      <ImagePickerComponent photo = {photo => updatePhoto(photo)}/>
       <TouchableOpacity
         style={styles.button}
         onPress={AddPress}
@@ -99,7 +111,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 20,
     width:100,
-    backgroundColor:'#add8e6',
+    backgroundColor:'#add8e6',  
     // paddingRight: 20,
     // paddingLeft: 20,
     paddingVertical: 10
@@ -112,15 +124,26 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     // alignItems:'stretch'
   },
-  input: {
-    height: 40,
+  inputdescription: {
+    height: 160,
     // width:20,
     marginLeft: 10,
+    marginRight:10,
     marginTop: 20,
-    marginEnd: 20,
+    // marginEnd: 20,
     paddingHorizontal: 20,
+    borderBottomWidth:0.5,
+
     // textAlign:'right',
-    borderColor: 'gray',
-    borderWidth: 1
+    // borderColor: 'gray',
+    // borderWidth: 1
+  },
+  input: {
+    height: 20,
+    marginLeft: 5,
+    marginRight:5,
+    marginTop: 40,
+    paddingBottom:10,
+    borderBottomWidth:0.5
   }
 });

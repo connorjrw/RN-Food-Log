@@ -19,7 +19,7 @@ export default function App() {
           tabBarLabel: 'Home',
           title: 'hello',
           style:{
-            backgroundColor:'#add8e6'
+            backgroundColor:'#293236'
           },
           labelStyle: {
             fontSize: 25,
