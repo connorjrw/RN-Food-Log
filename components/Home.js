@@ -80,10 +80,10 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    borderWidth:0.5,
-    marginBottom:1,
-    backgroundColor: 'white',
+    // flex: 1,
+    // borderWidth:0.5,
+    // marginBottom:1,
+    // backgroundColor: 'white',
   },
   scrollcontainer:{
     alignItems: 'stretch'
@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     borderRadius:10,
     borderWidth:0.5
   },
-
   header: {
     marginTop: 100,
     fontSize: 50

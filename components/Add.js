@@ -18,8 +18,8 @@ function Add() {
   // const { register, handleSubmit } = useForm();
   // const onSubmit = (data) => alert(JSON.stringify(data));
 
-  const [name, nameOnChange] = React.useState('Name');
-  const [description, descOnChange] = React.useState('Desc')
+  const [name, nameOnChange] = React.useState(".");
+  const [description, descOnChange] = React.useState('')
   const [photo, updatePhoto] = React.useState('Photo')
 
   
@@ -41,13 +41,21 @@ function Add() {
 
   return (
     <View style={styles.container}>
-      {/* <Text>Name</Text> */}
-      <TextInput
+      <View style = {styles.inputcontainer}>
+        <View style = {styles.textwrap}>
+        <Text style = {styles.inputtitle}>Name</Text>
+        </View>
+        <TextInput
         multiline = {true}
         style={styles.input}
         onChangeText={name => nameOnChange(name)}
         value={name}>
-      </TextInput>
+        </TextInput>
+      </View>
+      <View style = {styles.inputcontainer}>
+      <View style = {styles.textwrap}>
+        <Text style = {styles.inputtitle}>Description</Text>
+      </View>
       <TextInput
         multiline={true}
         numberOfLines={1}
@@ -55,13 +63,15 @@ function Add() {
         onChangeText={description => descOnChange(description)}
         value={description}>
       </TextInput>
+      </View>
+
 
       <ImagePickerComponent photo = {photo => updatePhoto(photo)}/>
       <TouchableOpacity
         style={styles.button}
         onPress={AddPress}
       >
-        <Text>Add</Text>
+        <Text style = {styles.buttontext}>Add</Text>
       </TouchableOpacity>
     </View>
   )
@@ -76,8 +86,8 @@ export default function AddStack(){
           {
             title: 'Add Food',
             headerStyle: {
-              backgroundColor: '#add8e6',
-              height:88
+              backgroundColor: 'white',
+              height:100
             },
             headerTitleStyle: {
               alignSelf:'flex-start',
@@ -96,7 +106,9 @@ export default function AddStack(){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#add8e6',
+    backgroundColor: 'white',
+    flexDirection:'column',
+    justifyContent:'flex-start'
     // alignItems: 'center',
   },
   header: {
@@ -105,13 +117,14 @@ const styles = StyleSheet.create({
     fontSize: 50
   },
   button: {
-    alignItems: "center",
-    backgroundColor: "white",
+    alignSelf: "center",
+    alignItems:'center',
     marginTop: 20,
     marginLeft: 10,
     marginRight: 20,
-    width:100,
-    backgroundColor:'#add8e6',  
+    width:200,
+    borderRadius:5,
+    backgroundColor:'#293236',  
     // paddingRight: 20,
     // paddingLeft: 20,
     paddingVertical: 10
@@ -129,7 +142,7 @@ const styles = StyleSheet.create({
     // width:20,
     marginLeft: 10,
     marginRight:10,
-    marginTop: 20,
+    marginTop: 15,
     // marginEnd: 20,
     paddingHorizontal: 20,
     borderBottomWidth:0.5,
@@ -138,12 +151,52 @@ const styles = StyleSheet.create({
     // borderColor: 'gray',
     // borderWidth: 1
   },
-  input: {
-    height: 20,
+  inputcontainer:{
+    alignItems:'stretch',
+    flexDirection:'row',
+    height: 60,
     marginLeft: 5,
     marginRight:5,
-    marginTop: 40,
-    paddingBottom:10,
-    borderBottomWidth:0.5
+    marginTop: 20,
+    borderWidth:0.5,
+    fontSize:20,
+    borderRadius:5,
+    // width:100,
+    // textAlignVertical: 'top',
+    // paddingTop:20,
+    // paddingLeft:5
+  },
+  textwrap:{
+    backgroundColor:'#293236',
+    borderRadius:5,
+    // paddingTop:20
+    // height:60 
+  },
+  inputtitle:{
+    // backgroundColor:'#293236',
+    // height:60,
+    paddingLeft:5,
+    fontSize:20,
+    paddingTop:20,
+    width:130,
+    color:'#1e90ff',
+    fontWeight:'bold',
+    paddingLeft:10
+    // marginBottom:20
+  },
+  input: {
+    // marginTop:20,
+    // paddingLeft:50,
+    marginBottom:10,
+    paddingLeft:10,
+    // textAlign:'right',
+    width:200,
+    fontSize:20,
+    alignSelf:'center'
+    // borderBottomWidth:0.5
+  },
+  buttontext:{
+    fontSize:20,
+    color:'#1e90ff',
   }
 });

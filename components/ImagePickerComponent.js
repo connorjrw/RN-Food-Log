@@ -76,17 +76,22 @@ const ImagePickerComponent = (props) => {
           // activeOpacity={0.5}
           style={styles.buttonStyle}
           onPress={chooseFile}>
+            <View style = {styles.textwrap}>
           <Text style={styles.textStyle}>
             Photo
           </Text>
+          </View>
+
         </TouchableOpacity>
         </View>
+        <View>
         <Image
           source={{
             uri: 'data:image/jpeg;base64,' + filePath.data,
           }}
           style={styles.imageStyle}
         />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -95,12 +100,10 @@ const ImagePickerComponent = (props) => {
 export default ImagePickerComponent;
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   padding: 10,
-  //   backgroundColor: '#fff',
-  //   alignItems: 'center',
-  // },
+  container: {
+    // flex: 1,
+    height:60,
+  },
   titleText: {
     fontSize: 22,
     fontWeight: 'bold',
@@ -108,8 +111,13 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   textStyle: {
-    padding: 10,
-    color: 'black',
+    // backgroundColor:'black',
+    // padding: 10,
+    paddingTop:20,
+    fontSize:20,
+    fontWeight:'bold',
+    paddingLeft:10,
+    color: '#1e90ff',
   },
   buttonStyle: {
     alignItems: 'center',
@@ -117,9 +125,10 @@ const styles = StyleSheet.create({
     // backgroundColor: 'white',
     // marginHorizontal,
     // borderWidth:0.5,
-    borderBottomWidth:0.5,
-    height:50,
+    borderWidth:0.5,
+    height:60,
     marginTop:20,
+    borderRadius:5
     // marginHorizontal:10
   },
   imageStyle: {
@@ -131,6 +140,13 @@ const styles = StyleSheet.create({
     height: 40,
     // padding:5
     // margin: 5,
+  },
+  textwrap:{
+    backgroundColor:'#293236',
+    borderRadius:5,
+    // paddingTop:20
+    height:60,
+    width:130
   },
   wrapper:{
     flex: 1,
