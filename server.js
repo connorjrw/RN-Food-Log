@@ -58,6 +58,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
               if (err) throw err
             })
             console.log(result)
+            res.send()
           })
           .catch(error => console.error(error))
         })

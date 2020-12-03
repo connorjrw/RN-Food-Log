@@ -58,20 +58,9 @@ const ImagePickerComponent = (props) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
-        {/*<Image 
-          source={{ uri: filePath.path}} 
-          style={{width: 100, height: 100}} />*/}
-        
-        {/* <Image
-          source={{uri: filePath.uri}}
-          style={styles.imageStyle}
-        />
-        <Text style={styles.textStyle}>
-          {filePath.uri}
-        </Text> */}
         <View style = {styles.wrapper}>
+
         <TouchableOpacity
           // activeOpacity={0.5}
           style={styles.buttonStyle}
@@ -81,10 +70,9 @@ const ImagePickerComponent = (props) => {
             Photo
           </Text>
           </View>
-
         </TouchableOpacity>
+        
         </View>
-        <View>
         <Image
           source={{
             uri: 'data:image/jpeg;base64,' + filePath.data,
@@ -92,8 +80,7 @@ const ImagePickerComponent = (props) => {
           style={styles.imageStyle}
         />
         </View>
-      </View>
-    </SafeAreaView>
+    // </SafeAreaView>
   );
 };
 
@@ -122,14 +109,11 @@ const styles = StyleSheet.create({
   buttonStyle: {
     alignItems: 'center',
     flexDirection: 'row',
-    // backgroundColor: 'white',
-    // marginHorizontal,
-    // borderWidth:0.5,
     borderWidth:0.5,
     height:60,
     marginTop:20,
-    borderRadius:5
-    // marginHorizontal:10
+    borderRadius:5,
+    marginHorizontal:5
   },
   imageStyle: {
     alignSelf:'flex-end',
@@ -150,10 +134,6 @@ const styles = StyleSheet.create({
   },
   wrapper:{
     flex: 1,
-    marginHorizontal:5,
-    // marginRight:30,?
     flexDirection: 'column',
-    justifyContent: "flex-start",
-    alignContent: 'stretch',
   }
 });

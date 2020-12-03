@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 const axios = require('axios');
 const api = "http://connor.local:3000/"
@@ -7,34 +6,27 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, View, Form, Label, TextInput, TouchableOpacity } from 'react-native';
 import ImagePickerComponent from './ImagePickerComponent'
 
-import { useForm } from "react-hook-form";
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Stack = createStackNavigator();
 
-// const Tab = createBottomTabNavigator();
 
-function Add() {
-  // const { register, handleSubmit } = useForm();
-  // const onSubmit = (data) => alert(JSON.stringify(data));
+function Add({navigation:{navigate}}) {
 
   const [name, nameOnChange] = React.useState(".");
   const [description, descOnChange] = React.useState('')
   const [photo, updatePhoto] = React.useState('Photo')
-
-  
   
 
   function AddPress() {
-    console.log(name, description, photo)
     axios.post(api + 'addrecipe', {
       name: name,
       description: description,
       photoLocation:photo.uri,
       fileName:photo.fileName
     }).then(res => {
-      console.log(res)
+      navigate('Home')
     }).catch(err => {
+      console.log('!!!')
       console.log(err)
     })
   }
@@ -76,11 +68,12 @@ function Add() {
     </View>
   )
 }
-export default function AddStack(){
+export default function AddStack({ navigation: { navigate } }){
+  console.log('nav',navigate)
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Add Recipe"
+        name="Add"
         component={Add}
         options={ 
           {
@@ -98,6 +91,7 @@ export default function AddStack(){
         }
 
       />
+      
     </Stack.Navigator>
   );
 }
@@ -119,7 +113,7 @@ const styles = StyleSheet.create({
   button: {
     alignSelf: "center",
     alignItems:'center',
-    marginTop: 20,
+    marginTop: 40,
     marginLeft: 10,
     marginRight: 20,
     width:200,

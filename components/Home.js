@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     // borderWidth:0.5,
     // marginBottom:1,
-    // backgroundColor: 'white',
+    backgroundColor: 'white',
   },
   scrollcontainer:{
     alignItems: 'stretch'
