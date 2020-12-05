@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Header, ScrollView, Image } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useFocusEffect } from '@react-navigation/native';
+import { NavigationHelpersContext, useFocusEffect } from '@react-navigation/native';
+import Food from './Food.js'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 const axios = require('axios');
 const api = "http://connor.local:3000/"
 var fileUrl = require('file-url');  
@@ -14,7 +16,15 @@ function getUrl(url){
   return fileUrl('/Users/con/Desktop/React/FoodBus/Images/' + url.toString() + '.png')
 
 }
-function HomeScreen() {
+function changepage(navigate, data){
+  navigate('Food', {data:{
+    name:data.name,
+    description:data.description,
+    photo:getUrl(data._id)
+  }})
+}
+
+function HomeScreen({ navigation: { navigate } }) {
   const [data, setData] = useState([]);
   useFocusEffect(
     React.useCallback(() => {
@@ -35,7 +45,8 @@ function HomeScreen() {
   return (
     <ScrollView contentContainerStyle={styles.scrollcontainer} style = {styles.container}>
       {data.map(data => 
-        <View key = {data._id} style = {styles.itemcontainer}>
+        <View key = {data._id}>
+        <TouchableOpacity onPress = { () => {changepage(navigate, data)}} style = {styles.itemcontainer}>
           <View>
             <Text style={styles.item}>{data.name}</Text>
             <Text style={styles.description}>{data.description}</Text>
@@ -46,10 +57,14 @@ function HomeScreen() {
             style={styles.imageStyle}
           />
           </View>
+          </TouchableOpacity>
         </View>)}
        
     </ScrollView>)
 }
+
+
+
 
 export default function Home() {
 
@@ -74,9 +89,15 @@ export default function Home() {
         }
 
       />
+      <Stack.Screen 
+        name = "Food"
+        component = {Food}>
+
+        </Stack.Screen>
     </Stack.Navigator>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

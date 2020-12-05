@@ -63,7 +63,7 @@ const ImagePickerComponent = (props) => {
         // };
         console.log(source)
         props.photo(source)
-
+        console.log(source)
         setFilePath(source);
       }
     });
@@ -85,6 +85,7 @@ const ImagePickerComponent = (props) => {
         </TouchableOpacity>
         
         </View>
+        <Text>{filePath.data}</Text>
         <Image
           source={{
             uri: 'data:image/jpeg;base64,' + filePath.data,

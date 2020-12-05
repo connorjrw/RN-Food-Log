@@ -33,6 +33,7 @@ export default function App() {
     </NavigationContainer>
   );
 }
+function navbar(){}
 
 const styles = StyleSheet.create({
   container: {

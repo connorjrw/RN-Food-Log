@@ -157,16 +157,11 @@ const styles = StyleSheet.create({
     borderWidth:0.5,
     fontSize:20,
     borderRadius:5,
-    // width:100,
-    // textAlignVertical: 'top',
-    // paddingTop:20,
-    // paddingLeft:5
   },
   textwrap:{
     backgroundColor:'#293236',
     borderRadius:5,
-    // paddingTop:20
-    // height:60 
+    // height:60 K
   },
   inputtitle:{
     // backgroundColor:'#293236',
