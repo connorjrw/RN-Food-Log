@@ -54,14 +54,13 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             console.log(result)
             var oldPath = req.body.photoLocation.substr(7)
             var newPath = './Images/' + result.insertedId + '.png'
-            fs.rename(oldPath, newPath, function (err) {
-              if (err) throw err
+            fs.rename(oldPath, newPath, (err) => {
+              console.log('do nothing with error')
             })
-            console.log(result)
             res.send()
           })
           .catch(error => console.error(error))
-        })
+        }) 
       }).catch(error => console.error(error))
 
 

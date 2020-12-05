@@ -3,6 +3,7 @@
 
 // Import React
 import React, {useState} from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 // Import required components
 import {
   SafeAreaView,
@@ -12,6 +13,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import { set } from 'react-native-reanimated';
 
 // Import Image Picker
 var ImagePicker = require('react-native-image-picker');
@@ -19,6 +21,17 @@ var ImagePicker = require('react-native-image-picker');
 
 const ImagePickerComponent = (props) => {
   const [filePath, setFilePath] = useState({});
+  useFocusEffect(
+    React.useCallback(() => {
+      let isMounted = true; 
+    
+      return () => {
+        // Remove photo once we change screens
+        setFilePath('')
+        isMounted = false
+      };
+    }, []) 
+  )
 
   const chooseFile = () => {
     const options = {
@@ -51,7 +64,6 @@ const ImagePickerComponent = (props) => {
         console.log(source)
         props.photo(source)
 
-        // this.props.updatePhoto(source)
         setFilePath(source);
       }
     });

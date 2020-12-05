@@ -24,9 +24,11 @@ function Add({navigation:{navigate}}) {
       photoLocation:photo.uri,
       fileName:photo.fileName
     }).then(res => {
+      descOnChange('')
+      nameOnChange('')
+      updatePhoto('')
       navigate('Home')
     }).catch(err => {
-      console.log('!!!')
       console.log(err)
     })
   }
