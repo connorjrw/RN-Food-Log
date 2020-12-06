@@ -31,7 +31,7 @@ const storage = multer.diskStorage({
   }
 });
 
-
+var mongodb = require('mongodb');
 
 const MongoClient = require('mongodb').MongoClient
 
@@ -47,6 +47,17 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             console.log(results)
             res.send(results)
         })
+    })
+    app.post('/removefood', (req,res) => {
+      var query = {"_id":new mongodb.ObjectId(req.body.id)}
+      console.log(query)
+      db.collection('recipes').deleteOne(query, () => {
+          // console.log(res)
+          console.log('deleted')
+          // res.send()
+      }).catch(err => {
+        console.log(err)
+      })
     })
     app.post('/addrecipe', (req, res) => {
         db.collection('recipes').insertOne(req.body)

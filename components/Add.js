@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 
 function Add({navigation:{navigate}}) {
 
-  const [name, nameOnChange] = React.useState(".");
+  const [name, nameOnChange] = React.useState('');
   const [description, descOnChange] = React.useState('')
   const [photo, updatePhoto] = React.useState('Photo')
   

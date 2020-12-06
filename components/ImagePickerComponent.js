@@ -85,7 +85,6 @@ const ImagePickerComponent = (props) => {
         </TouchableOpacity>
         
         </View>
-        <Text>{filePath.data}</Text>
         <Image
           source={{
             uri: 'data:image/jpeg;base64,' + filePath.data,
@@ -133,8 +132,8 @@ const styles = StyleSheet.create({
     // borderWidth:0.5,
     marginTop:25,
     marginRight:15,
-    width: 40,
-    height: 40,
+    width: 50,
+    height: 50,
     // padding:5
     // margin: 5,
   },

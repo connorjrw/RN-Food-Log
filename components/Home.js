@@ -20,6 +20,8 @@ function changepage(navigate, data){
   navigate('Food', {data:{
     name:data.name,
     description:data.description,
+    id:data._id,
+    navigate:navigate,
     photo:getUrl(data._id)
   }})
 }
@@ -141,7 +143,8 @@ const styles = StyleSheet.create({
     paddingRight:2,
     width: 99,
     height: 99,
-  }
+  },
+  
 });
 
 
