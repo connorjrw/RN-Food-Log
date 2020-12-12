@@ -1,4 +1,5 @@
-import Home from './components/Home.js';
+import Home from './components/FoodList.js';
+import Home2 from './components/Home.js'
 import AddStack from './components/Add.js'
 import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -27,7 +28,8 @@ export default function App() {
           },
         }}
       >
-        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name = "Home" component = {Home2} styles={styles} />
+        <Tab.Screen name="Food" component={Home} />
         <Tab.Screen name="Add" component={AddStack} styles={styles} />
       </Tab.Navigator>
     </NavigationContainer>

@@ -1,89 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Header, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationHelpersContext, useFocusEffect } from '@react-navigation/native';
-import Food from './Food.js'
-import { TouchableOpacity } from 'react-native-gesture-handler';
-const axios = require('axios');
-const api = "http://connor.local:3000/"
-var fileUrl = require('file-url');  
-process.cwd = function () {
-  return '/';
-}
+import 'react-native-gesture-handler';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+
+const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-function getUrl(url){
-  return fileUrl('/Users/con/Desktop/React/FoodBus/Images/' + url.toString() + '.png')
-
-}
-function changepage(navigate, data){
-  navigate('Food', {data:{
-    name:data.name,
-    description:data.description,
-    id:data._id,
-    navigate:navigate,
-    photo:getUrl(data._id)
-  }})
+const getCurrentDate=()=>{
+  var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  var date = new Date().getDate();
+  var month = new Date().getMonth() + 1;
+  var year = new Date().getFullYear();
+  var day = new Date().getDay()
+  return date + ' ' + months[month - 1] + ' ' + year ;//format: dd-mm-yyyy;
 }
 
-function HomeScreen({ navigation: { navigate } }) {
-  const [data, setData] = useState([]);
-  useFocusEffect(
-    React.useCallback(() => {
-      let isMounted = true; 
-      axios.get(api + "recipes").then(response => {
-        console.log(response.data)
-        setData(response.data)
-      }).catch(err => {
-        console.log(err)
-      })
-      return () => {
-        isMounted = false
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, [])
-  );
+function Home() {
   return (
-    <ScrollView contentContainerStyle={styles.scrollcontainer} style = {styles.container}>
-      {data.map(data => 
-        <View key = {data._id}>
-        <TouchableOpacity onPress = { () => {changepage(navigate, data)}} style = {styles.itemcontainer}>
-          <View>
-            <Text style={styles.item}>{data.name}</Text>
-            <Text style={styles.description}>{data.description}</Text>
-          </View>
-          <View style = {styles.photo}>
-          <Image
-            source={{url: getUrl(data._id)}}
-            style={styles.imageStyle}
-          />
-          </View>
-          </TouchableOpacity>
-        </View>)}
-       
-    </ScrollView>)
+   <View style = {styles.container}>
+       <Text style = {styles.datetext}>{getCurrentDate()}</Text>
+   </View>
+  );
 }
 
-
-
-
-export default function Home() {
-
+export default function HomeStack({ navigation: { navigate } }){
+  console.log('nav',navigate)
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
-        component={HomeScreen}
-        options={
+        component={Home}
+        options={ 
           {
-            title: 'Food',
+            title: 'Home',
             headerStyle: {
-              borderWidth:0.5,
               backgroundColor: 'white',
-              height: 100
+              height:100
             },
             headerTitleStyle: {
+              alignSelf:'flex-start',
               fontSize: 23,
               textAlign: 'left'
             }
@@ -91,59 +49,22 @@ export default function Home() {
         }
 
       />
-      <Stack.Screen 
-        name = "Food"
-        component = {Food}>
-
-        </Stack.Screen>
+      
     </Stack.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // borderWidth:0.5,
-    // marginBottom:1,
-    backgroundColor: 'white',
-  },
-  scrollcontainer:{
-    alignItems: 'stretch'
-  },
-  itemcontainer:{
-    flexDirection: 'row',
-    justifyContent:'space-between',
-    marginHorizontal:10,
-    marginVertical:10,
-    height:100,
-    alignItems:'stretch',
-    backgroundColor:'white',
-    borderColor:'grey',     
-    borderRadius:10,
-    borderWidth:0.5
+    flex: 1,
+    backgroundColor:'white'
   },
   header: {
     marginTop: 100,
-    fontSize: 50
   },
-  item: {
-    marginLeft:20,
-    marginTop:20,
-    fontSize: 30,
-  },
-  description: {
-    marginLeft:20,
+  datetext:{
+    alignSelf:'center',
     marginTop:10,
-    fontSize: 10
-  },
-  imageStyle: {
-    alignSelf:'flex-start',
-    borderRadius:10,
-    paddingRight:2,
-    width: 99,
-    height: 99,
-  },
-  
+    fontSize:30
+  }
 });
-
-
