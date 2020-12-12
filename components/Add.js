@@ -2,21 +2,16 @@ import React, { useEffect } from 'react';
 const axios = require('axios');
 const api = "http://connor.local:3000/"
 import { createStackNavigator } from '@react-navigation/stack';
-
-import { StyleSheet, Text, View, Form, Label, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import ImagePickerComponent from './ImagePickerComponent'
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Stack = createStackNavigator();
-
-
 function Add({navigation:{navigate}}) {
 
   const [name, nameOnChange] = React.useState('');
   const [description, descOnChange] = React.useState('')
   const [photo, updatePhoto] = React.useState('Photo')
   
-
   function AddPress() {
     axios.post(api + 'addrecipe', {
       name: name,
@@ -58,8 +53,6 @@ function Add({navigation:{navigate}}) {
         value={description}>
       </TextInput>
       </View>
-
-
       <ImagePickerComponent photo = {photo => updatePhoto(photo)}/>
       <TouchableOpacity
         style={styles.button}
@@ -91,9 +84,7 @@ export default function AddStack({ navigation: { navigate } }){
             }
           }
         }
-
       />
-      
     </Stack.Navigator>
   );
 }
@@ -103,15 +94,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    flexDirection:'column',
-    justifyContent:'flex-start'
-    // alignItems: 'center',
   },
-  header: {
-    alignSelf: 'center',
-    marginTop: 100,
-    fontSize: 50
-  },
+
   button: {
     alignSelf: "center",
     alignItems:'center',
@@ -121,32 +105,9 @@ const styles = StyleSheet.create({
     width:200,
     borderRadius:5,
     backgroundColor:'#293236',  
-    // paddingRight: 20,
-    // paddingLeft: 20,
     paddingVertical: 10
   },
-  label: {
-    // textAlign:'right'
-  },
-  inputco: {
-    flex: 1,
-    flexDirection: 'column',
-    // alignItems:'stretch'
-  },
-  inputdescription: {
-    height: 160,
-    // width:20,
-    marginLeft: 10,
-    marginRight:10,
-    marginTop: 15,
-    // marginEnd: 20,
-    paddingHorizontal: 20,
-    borderBottomWidth:0.5,
 
-    // textAlign:'right',
-    // borderColor: 'gray',
-    // borderWidth: 1
-  },
   inputcontainer:{
     alignItems:'stretch',
     flexDirection:'row',
@@ -161,11 +122,8 @@ const styles = StyleSheet.create({
   textwrap:{
     backgroundColor:'#293236',
     borderRadius:5,
-    // height:60 K
   },
   inputtitle:{
-    // backgroundColor:'#293236',
-    // height:60,
     paddingLeft:5,
     fontSize:20,
     paddingTop:20,
@@ -173,18 +131,13 @@ const styles = StyleSheet.create({
     color:'#1e90ff',
     fontWeight:'bold',
     paddingLeft:10
-    // marginBottom:20
   },
   input: {
-    // marginTop:20,
-    // paddingLeft:50,
     marginBottom:10,
     paddingLeft:10,
-    // textAlign:'right',
     width:200,
     fontSize:20,
     alignSelf:'center'
-    // borderBottomWidth:0.5
   },
   buttontext:{
     fontSize:20,

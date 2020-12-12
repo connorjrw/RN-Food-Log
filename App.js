@@ -1,5 +1,5 @@
-import Home from './components/FoodList.js';
-import Home2 from './components/Home.js'
+import FoodListStack from './components/FoodList.js';
+import HomeStack from './components/Home.js'
 import AddStack from './components/Add.js'
 import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -10,15 +10,12 @@ import { NavigationContainer } from '@react-navigation/native';
 const Tab = createBottomTabNavigator();
 
 
-
-
 export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
         tabBarOptions={{
           tabBarLabel: 'Home',
-          title: 'hello',
           style:{
             backgroundColor:'#293236'
           },
@@ -28,23 +25,11 @@ export default function App() {
           },
         }}
       >
-        <Tab.Screen name = "Home" component = {Home2} styles={styles} />
-        <Tab.Screen name="Food" component={Home} />
-        <Tab.Screen name="Add" component={AddStack} styles={styles} />
+        <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen name = "Food" component = {FoodListStack}/>
+        <Tab.Screen name="Add" component={AddStack}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
 }
-function navbar(){}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // backgroundColor: '#add8e6',
-    // alignItems: 'center',
-  },
-  header: {
-    marginTop: 100,
-    // fontSize: 50
-  }
-});

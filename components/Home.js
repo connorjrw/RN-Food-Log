@@ -21,7 +21,7 @@ const getCurrentDate=()=>{
 function Home() {
   return (
    <View style = {styles.container}>
-       <Text style = {styles.datetext}>{getCurrentDate()}</Text>
+       <Text style = {styles.date}>{getCurrentDate()}</Text>
    </View>
   );
 }
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   header: {
     marginTop: 100,
   },
-  datetext:{
+  date:{
     alignSelf:'center',
     marginTop:10,
     fontSize:30

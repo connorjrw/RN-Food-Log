@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationHelpersContext, useFocusEffect } from '@react-navigation/native';
 import Food from './FoodItem.js'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import ustyles from '../std-styles.js'
+
 const axios = require('axios');
 const api = "http://connor.local:3000/"
 var fileUrl = require('file-url');  
@@ -26,7 +28,7 @@ function changepage(navigate, data){
   }})
 }
 
-function HomeScreen({ navigation: { navigate } }) {
+function FoodList({ navigation: { navigate } }) {
   const [data, setData] = useState([]);
   useFocusEffect(
     React.useCallback(() => {
@@ -45,18 +47,18 @@ function HomeScreen({ navigation: { navigate } }) {
     }, [])
   );
   return (
-    <ScrollView contentContainerStyle={styles.scrollcontainer} style = {styles.container}>
+    <ScrollView contentContainerStyle={ustyles.scrollcontainer} style = {ustyles.container}>
       {data.map(data => 
         <View key = {data._id}>
-        <TouchableOpacity onPress = { () => {changepage(navigate, data)}} style = {styles.itemcontainer}>
+        <TouchableOpacity onPress = { () => {changepage(navigate, data)}} style = {FLStyles.itemcontainer}>
           <View>
-            <Text style={styles.item}>{data.name}</Text>
-            <Text style={styles.description}>{data.description}</Text>
+            <Text style={FLStyles.item}>{data.name}</Text>
+            <Text style={FLStyles.description}>{data.description}</Text>
           </View>
-          <View style = {styles.photo}>
+          <View style = {FLStyles.photo}>
           <Image
             source={{url: getUrl(data._id)}}
-            style={styles.imageStyle}
+            style={FLStyles.imageStyle}
           />
           </View>
           </TouchableOpacity>
@@ -65,16 +67,45 @@ function HomeScreen({ navigation: { navigate } }) {
     </ScrollView>)
 }
 
+const FLStyles = StyleSheet.create({
+    item: {
+      marginLeft:20,
+      marginTop:20,
+      fontSize: 30,
+    },
+    description: {
+      marginLeft:20,
+      marginTop:10,
+      fontSize: 10
+    },
+    imageStyle: {
+      alignSelf:'flex-start',
+      borderRadius:10,
+      paddingRight:2,
+      width: 99,
+      height: 99,
+    },
+    itemcontainer:{
+      flexDirection: 'row',
+      justifyContent:'space-between',
+      marginHorizontal:10,
+      marginVertical:10,
+      height:100,
+      alignItems:'stretch',
+      backgroundColor:'white',
+      borderColor:'grey',     
+      borderRadius:10,
+      borderWidth:0.5
+    },
+})
 
-
-
-export default function Home() {
+export default function FoodListStack() {
 
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
-        component={HomeScreen}
+        component={FoodList}
         options={
           {
             title: 'Food',
@@ -100,50 +131,6 @@ export default function Home() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    // borderWidth:0.5,
-    // marginBottom:1,
-    backgroundColor: 'white',
-  },
-  scrollcontainer:{
-    alignItems: 'stretch'
-  },
-  itemcontainer:{
-    flexDirection: 'row',
-    justifyContent:'space-between',
-    marginHorizontal:10,
-    marginVertical:10,
-    height:100,
-    alignItems:'stretch',
-    backgroundColor:'white',
-    borderColor:'grey',     
-    borderRadius:10,
-    borderWidth:0.5
-  },
-  header: {
-    marginTop: 100,
-    fontSize: 50
-  },
-  item: {
-    marginLeft:20,
-    marginTop:20,
-    fontSize: 30,
-  },
-  description: {
-    marginLeft:20,
-    marginTop:10,
-    fontSize: 10
-  },
-  imageStyle: {
-    alignSelf:'flex-start',
-    borderRadius:10,
-    paddingRight:2,
-    width: 99,
-    height: 99,
-  },
-  
-});
+
 
 
