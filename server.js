@@ -15,7 +15,7 @@ var fs = require('fs')
 var bodyParser = require('body-parser')
   
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+// app.use(bodyParser.urlencoded({ extended: false }))
  
 // parse application/json
 app.use(bodyParser.json())
@@ -48,6 +48,36 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             res.send(results)
         })
     })
+    app.get('/foodlog', (req, res) =>{
+      date_req = req.query.date
+      console.log('date', date_req)
+      db.collection('foodlog').find({date:date_req}).toArray()
+      .then(results => {
+          db.collection('recipes').find({"_id":new mongodb.ObjectId(results[0].food_id)}).toArray()
+            .then(rec_result => {
+            // console.log('res', results). 
+            console.log('the results', results, rec_result)
+            var merged_results = {
+              "_id": results[0]._id,
+              "recipe_id":rec_result[0]._id,
+              "name": rec_result[0].name,
+              "description":rec_result[0].description,
+              "photoLocation":rec_result[0].photoLocation,
+              "fileName":rec_result[0].fileName,
+              "date":results[0].date,
+              "type":results[0].type
+            }
+            res.send([merged_results])
+          }).catch(err => {
+            console.log(err)
+            res.send([])
+          })
+          // res.send(results)
+      }).catch(err => {
+        console.log('no results?')
+        res.send([])
+      })
+  })
     app.post('/removefood', (req,res) => {
       var query = {"_id":new mongodb.ObjectId(req.body.id)}
       console.log(query)

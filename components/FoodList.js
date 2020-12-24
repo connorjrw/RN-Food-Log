@@ -34,7 +34,7 @@ function FoodList({ navigation: { navigate } }) {
     React.useCallback(() => {
       let isMounted = true; 
       axios.get(api + "recipes").then(response => {
-        console.log(response.data)
+        console.log('res', response.data)
         setData(response.data)
       }).catch(err => {
         console.log(err)
