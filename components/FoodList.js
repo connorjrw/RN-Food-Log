@@ -16,7 +16,6 @@ const Stack = createStackNavigator();
 
 function getUrl(url){
   return fileUrl('/Users/con/Desktop/React/FoodBus/Images/' + url.toString() + '.png')
-
 }
 function changepage(navigate, data){
   navigate('Food', {data:{

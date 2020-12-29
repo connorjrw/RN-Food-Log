@@ -3,12 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import ustyles from '../std-styles.js'
+import AddEntry from './AddEntry.js'
 
 const api = "http://connor.local:3000/"
 const axios = require('axios');
 var fileUrl = require('file-url');  
-
-
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
@@ -18,6 +17,9 @@ const Stack = createStackNavigator();
 
 function getUrl(url){
   return fileUrl('/Users/con/Desktop/React/FoodBus/Images/' + url.toString() + '.png')
+}
+function changePage(navigate){
+  navigate('Add Entry')
 }
 
 const formatDate = (date) => {
@@ -46,7 +48,7 @@ const previousDate = (selectedDate) => {
 
 
 
-function Home() {
+function Home({ navigation: { navigate } }) {
   var today = new Date()
   const [selectedDate, setDate] = useState(formatDate(today));
   const [foodlog, setLog] = useState([]);
@@ -56,11 +58,13 @@ function Home() {
   useFocusEffect(
     React.useCallback(() => {
       let isMounted = true; 
+      console.log('asd')
       axios.get(api + "foodlog", {
         params:{
           date:selectedDate
         }
       }).then(response => {
+        console.log('response', response.data)
         setLog(response.data)
       }).catch(err => {
         console.log('error?')
@@ -109,7 +113,7 @@ function Home() {
        </View>
        <TouchableOpacity
         style={styles.button}
-        // onPress={AddPress}
+        onPress={ () => {changePage(navigate)}}
       >
       <Text style = {styles.buttontext}>Add Entry</Text>
       </TouchableOpacity>
@@ -139,6 +143,10 @@ export default function HomeStack({ navigation: { navigate } }){
         }
 
       />
+      <Stack.Screen 
+        name = "Add Entry"
+        component = {AddEntry}>
+      </Stack.Screen>
       
     </Stack.Navigator>
   );

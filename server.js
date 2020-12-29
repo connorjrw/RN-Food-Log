@@ -50,34 +50,45 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     })
     app.get('/foodlog', (req, res) =>{
       date_req = req.query.date
-      console.log('date', date_req)
+      var final_result = [];
       db.collection('foodlog').find({date:date_req}).toArray()
       .then(results => {
-          db.collection('recipes').find({"_id":new mongodb.ObjectId(results[0].food_id)}).toArray()
-            .then(rec_result => {
-            // console.log('res', results). 
-            console.log('the results', results, rec_result)
-            var merged_results = {
-              "_id": results[0]._id,
-              "recipe_id":rec_result[0]._id,
-              "name": rec_result[0].name,
-              "description":rec_result[0].description,
-              "photoLocation":rec_result[0].photoLocation,
-              "fileName":rec_result[0].fileName,
-              "date":results[0].date,
-              "type":results[0].type
+            (async function loop() {
+              if(results.length == 0){
+                res.send([])
+              }
+              else{
+              for (let i = 0; i < results.length; i++) {
+                    await new Promise(resolve => {
+                        db.collection('recipes').find({"_id":new mongodb.ObjectId(results[i].food_id)}).toArray()
+                            .then(rec_result => {
+                            var currentResult = {
+                              "_id": results[i]._id,
+                              "recipe_id":rec_result[0]._id,
+                              "name": rec_result[0].name,
+                              "description":rec_result[0].description,
+                              "photoLocation":rec_result[0].photoLocation,
+                              "fileName":rec_result[0].fileName,
+                              "date":results[i].date,
+                              "type":results[i].type
+                            }
+                            final_result.push(currentResult)
+                            if(i == results.length - 1){
+                              res.send(final_result)
+                            }
+                            resolve()
+                          }).catch(err => {
+                            console.log(err)
+                          })
+                  }).then( () => {
+                  });
+              }
             }
-            res.send([merged_results])
-          }).catch(err => {
-            console.log(err)
-            res.send([])
-          })
-          // res.send(results)
+        })()
       }).catch(err => {
-        console.log('no results?')
-        res.send([])
+        console.log(err)
       })
-  })
+      })
     app.post('/removefood', (req,res) => {
       var query = {"_id":new mongodb.ObjectId(req.body.id)}
       console.log(query)
