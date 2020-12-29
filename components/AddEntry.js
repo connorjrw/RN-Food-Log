@@ -21,6 +21,10 @@ function select(dataitem, data){
   return data
 }
 
+function selectMenu(){
+
+}
+
 export default function AddEntry() {
   const [data, setData] = useState([]);
   useFocusEffect(
@@ -47,6 +51,7 @@ export default function AddEntry() {
         <View style = {styles.buttonwrap}>
           <View style = {styles.button2}>
           <GeneralButton text = 'Breakfast' 
+              onPress = { () => { selectMenu('Breakfast')}}
               buttonstyle = {styles.menuitem}
               textstyle = {styles.menuitemtext}>
           </GeneralButton>
@@ -90,6 +95,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     height:40,
     width:105,
+    backgroundColor:'white', 
+    borderWidth:0.5
   },
   foodoption:{
     height:400,

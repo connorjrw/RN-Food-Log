@@ -45,9 +45,6 @@ const previousDate = (selectedDate) => {
 
 
 
-
-
-
 function Home({ navigation: { navigate } }) {
   var today = new Date()
   const [selectedDate, setDate] = useState(formatDate(today));
