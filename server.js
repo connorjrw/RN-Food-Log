@@ -100,6 +100,12 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         console.log(err)
       })
     })
+    app.post('/addfood', (req,res) => {
+      db.collection('foodlog').insertOne(req.body)
+        .then(result => {
+          res.send()
+        })
+    })
     app.post('/addrecipe', (req, res) => {
         db.collection('recipes').insertOne(req.body)
           .then(result => {

@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
       },
       scrollcontainer:{
-        alignItems: 'stretch'
+        alignItems: 'stretch' 
       }
   });
   export default styles

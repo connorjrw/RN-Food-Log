@@ -21,15 +21,26 @@ function select(dataitem, data){
   return data
 }
 
-function selectMenu(){
-
+function addEntry(selectedItem, selectedType, selectedDate, navigate){
+  axios.post(api + 'addfood', {
+    date: selectedDate, 
+    food_id:selectedItem._id,
+    type:selectedType
+  }).then(resp => {
+    navigate('Home')
+  })
 }
 
-export default function AddEntry() {
+export default function AddEntry(props) {
   const [data, setData] = useState([]);
+  const [selectedItem, setSelectedItem] = useState([]);
+  const [selectedType, setSelectedType] = useState('Breakfast')
+  const selectedDate = props.route.params.date
+  const navigate = props.route.params.navigate
   useFocusEffect(
     React.useCallback(() => {
       let isMounted = true; 
+      // console.log('date?',  props.params.date)
       axios.get(api + "recipes").then(response => {
         // final = {}
         for(var item in response.data){
@@ -51,16 +62,18 @@ export default function AddEntry() {
         <View style = {styles.buttonwrap}>
           <View style = {styles.button2}>
           <GeneralButton text = 'Breakfast' 
-              onPress = { () => { selectMenu('Breakfast')}}
-              buttonstyle = {styles.menuitem}
+              onPress = { () => { setSelectedType('Breakfast')}}
+              buttonstyle={[styles.menuitem, selectedType == 'Breakfast' ? styles.menuitemselected : styles.menuitem]}
               textstyle = {styles.menuitemtext}>
           </GeneralButton>
           <GeneralButton text = 'Lunch' 
-              buttonstyle = {styles.menuitem}
+              onPress = { () => { setSelectedType('Lunch')}}
+              buttonstyle={[styles.menuitem, selectedType == 'Lunch' ? styles.menuitemselected : styles.menuitem]}
               textstyle = {styles.menuitemtext}>
           </GeneralButton>
           <GeneralButton text = 'Dinner' 
-              buttonstyle = {styles.menuitem}
+              onPress = { () => { setSelectedType('Dinner')}}
+              buttonstyle={[styles.menuitem, selectedType == 'Dinner' ? styles.menuitemselected : styles.menuitem]}
               textstyle = {styles.menuitemtext}>
           </GeneralButton>
       </View>
@@ -72,14 +85,16 @@ export default function AddEntry() {
         <FoodItemButton fooddata = {dataitem} onPress = { () => {
           const updatedData = JSON.parse(JSON.stringify(select(dataitem, data)));
           setData(updatedData)
-          console.log(data, 'is')
+          setSelectedItem(dataitem)
           }}>
         </FoodItemButton>
         </View>)}
       </ScrollView>
     </View>
     <View style = {styles.submit}>
-      <GeneralButton text = 'Add' buttonstyle = {styles.addbutton}></GeneralButton>
+      <GeneralButton text = 'Add' 
+      onPress = {() => {addEntry(selectedItem, selectedType, selectedDate, navigate)}}
+      buttonstyle = {styles.addbutton}></GeneralButton>
     </View>
     </View>
   );
@@ -97,6 +112,9 @@ const styles = StyleSheet.create({
     width:105,
     backgroundColor:'white', 
     borderWidth:0.5
+  },
+  menuitemselected:{
+    backgroundColor:'#293236'
   },
   foodoption:{
     height:400,

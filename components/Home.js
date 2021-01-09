@@ -18,8 +18,8 @@ const Stack = createStackNavigator();
 function getUrl(url){
   return fileUrl('/Users/con/Desktop/React/FoodBus/Images/' + url.toString() + '.png')
 }
-function changePage(navigate){
-  navigate('Add Entry')
+function changePage(navigate, selectedDate){
+  navigate('Add Entry', {date:selectedDate, navigate:navigate})
 }
 
 const formatDate = (date) => {
@@ -110,7 +110,7 @@ function Home({ navigation: { navigate } }) {
        </View>
        <TouchableOpacity
         style={styles.button}
-        onPress={ () => {changePage(navigate)}}
+        onPress={ () => {changePage(navigate, selectedDate)}}
       >
       <Text style = {styles.buttontext}>Add Entry</Text>
       </TouchableOpacity>
@@ -142,7 +142,8 @@ export default function HomeStack({ navigation: { navigate } }){
       />
       <Stack.Screen 
         name = "Add Entry"
-        component = {AddEntry}>
+        component = {AddEntry}
+        >
       </Stack.Screen>
       
     </Stack.Navigator>
