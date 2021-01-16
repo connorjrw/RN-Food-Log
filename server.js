@@ -74,6 +74,42 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
                             }
                             final_result.push(currentResult)
                             if(i == results.length - 1){
+                              final_result.sort(function(a, b){
+                                let aVal = 0
+                                let bVal = 0
+                                // console.log('namea.name)
+                                switch(a.type){
+                                  case 'Breakfast':
+                                    aVal = 1
+                                    break;
+                                  case 'Lunch':
+                                    aVal = 2
+                                    break;
+                                  case 'Dinner':
+                                    aVal = 3
+                                    break;
+                                }
+                                switch(b.type){
+                                  case 'Breakfast':
+                                    bVal = 1
+                                    break;
+                                  case 'Lunch':
+                                    bVal = 2
+                                    break;
+                                  case 'Dinner':
+                                    bVal = 3
+                                    break;
+                                }
+                                console.log(aVal, bVal, a.type)
+                                if (aVal < bVal) {
+                                  return -1;
+                                }
+                                if (aVal > bVal) {
+                                  return 1;
+                                }
+                                return 0;
+                              })
+                              // console.log('final', final_result)
                               res.send(final_result)
                             }
                             resolve()
@@ -109,7 +145,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.post('/addrecipe', (req, res) => {
         db.collection('recipes').insertOne(req.body)
           .then(result => {
-            console.log(result)
             var oldPath = req.body.photoLocation.substr(7)
             var newPath = './Images/' + result.insertedId + '.png'
             fs.rename(oldPath, newPath, (err) => {
