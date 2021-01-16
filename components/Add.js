@@ -6,7 +6,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import ImagePickerComponent from './ImagePickerComponent'
 
 const Stack = createStackNavigator();
-function Add({navigation:{navigate}}) {
+export default function Add({navigation:{navigate}}) {
 
   const [name, nameOnChange] = React.useState('');
   const [description, descOnChange] = React.useState('')
@@ -22,10 +22,10 @@ function Add({navigation:{navigate}}) {
       descOnChange('')
       nameOnChange('')
       updatePhoto('')
-      navigate('Home')
+      navigate('Home') //Shouldn't work but it does?
     }).catch(err => {
       console.log(err)
-    })
+    })  
   }
 
   return (
@@ -63,32 +63,6 @@ function Add({navigation:{navigate}}) {
     </View>
   )
 }
-export default function AddStack({ navigation: { navigate } }){
-  console.log('nav',navigate)
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Add"
-        component={Add}
-        options={ 
-          {
-            title: 'Add Food',
-            headerStyle: {
-              backgroundColor: 'white',
-              height:100
-            },
-            headerTitleStyle: {
-              alignSelf:'flex-start',
-              fontSize: 23,
-              textAlign: 'left'
-            }
-          }
-        }
-      />
-    </Stack.Navigator>
-  );
-}
-
 
 const styles = StyleSheet.create({
   container: {

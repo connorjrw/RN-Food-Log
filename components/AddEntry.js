@@ -60,6 +60,7 @@ export default function AddEntry(props) {
   return (
     <View style = {styles.container}>
         <View style = {styles.buttonwrap}>
+          <Text style = {styles.date}>{selectedDate}</Text>
           <View style = {styles.button2}>
           <GeneralButton text = 'Breakfast' 
               onPress = { () => { setSelectedType('Breakfast')}}
@@ -105,9 +106,14 @@ const styles = StyleSheet.create({
     flexDirection:'column',
     backgroundColor:'white'
   },
+  date:{
+    alignSelf:'center',
+    marginTop:15,
+    fontSize:27
+  },
   menuitem: {
     alignItems:'center',
-    marginTop: 20,
+    marginTop: 50,
     height:40,
     width:105,
     backgroundColor:'white', 
@@ -117,8 +123,8 @@ const styles = StyleSheet.create({
     backgroundColor:'#293236'
   },
   foodoption:{
-    height:400,
-    marginVertical:5,
+    height:500,
+    marginTop:40,
     marginHorizontal:5,
     // borderWidth:0.5,
     // borderBottomWidth:0.5,
@@ -130,6 +136,7 @@ const styles = StyleSheet.create({
     fontSize:15,
   },  
   buttonwrap:{
+    // marginTop:20,
     height:80,
   }, 
   button2:{
@@ -142,6 +149,7 @@ const styles = StyleSheet.create({
     alignSelf:'center'
   }, 
   addbutton:{
+    // marginTop:10,
     paddingTop:8,
     height:40
   }

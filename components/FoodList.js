@@ -3,8 +3,11 @@ import { StyleSheet, Text, View, Header, ScrollView, Image } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationHelpersContext, useFocusEffect } from '@react-navigation/native';
 import Food from './FoodItem.js'
+import Add from './Add.js'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ustyles from '../std-styles.js'
+import GeneralButton from './GeneralButton.js'
+
 
 const axios = require('axios');
 const api = "http://connor.local:3000/"
@@ -62,9 +65,18 @@ function FoodList({ navigation: { navigate } }) {
           </View>
           </TouchableOpacity>
         </View>)}
+        <GeneralButton text = "Add" 
+          onPress = {() => {
+            navigate('Add')
+          }}
+          height = {35} 
+          width = {150} 
+          paddingTop= {5}>
+        </GeneralButton>
        
     </ScrollView>)
 }
+
 
 const FLStyles = StyleSheet.create({
     item: {
@@ -124,6 +136,10 @@ export default function FoodListStack() {
       <Stack.Screen 
         name = "Food"
         component = {Food}>
+        </Stack.Screen>
+        <Stack.Screen
+        name = "Add"
+        component = {Add}>
 
         </Stack.Screen>
     </Stack.Navigator>

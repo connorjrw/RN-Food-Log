@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
   date:{
     alignSelf:'center',
     marginTop:10,
+    // marginBottom:20,
     fontSize:27
   },
   triangle: {

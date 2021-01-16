@@ -3,15 +3,16 @@ import React from 'react'
 
 export default function GeneralButton(props){
     return(
-    <TouchableOpacity style = {[styles.GeneralButton, props.buttonstyle]} onPress = {props.onPress}>
+    <TouchableOpacity style = {[{height:props.height, width:props.width, paddingTop:props.paddingTop}, styles.GeneralButton, props.buttonstyle]} onPress = {props.onPress}>
         <Text style = {
-            [styles.GeneralButtonText, props.textstyle, {height:props.height}]
+            [styles.GeneralButtonText, props.textstyle]
             }>{props.text}</Text>
     </TouchableOpacity>
     )
 }
 const styles = StyleSheet.create({
     GeneralButton:{
+        alignSelf:'center',
         alignItems:'center',
         marginTop: 40,
         width:150,
