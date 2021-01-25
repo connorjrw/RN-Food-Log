@@ -6,7 +6,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import ImagePickerComponent from './ImagePickerComponent'
 
 const Stack = createStackNavigator();
-export default function Add({navigation:{navigate}}) {
+export default function AddMenuItem({navigation:{navigate}}) {
 
   const [name, nameOnChange] = React.useState('');
   const [description, descOnChange] = React.useState('')

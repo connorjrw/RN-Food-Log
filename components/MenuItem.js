@@ -19,7 +19,7 @@ function removeFood(navigation, id){
    })
  }
 
-export default function Food(props) {
+export default function MenuItem(props) {
    const [name, setName] = useState('');
    const [description, setDescription] = useState('');
    const [photo, setPhoto] = useState('');

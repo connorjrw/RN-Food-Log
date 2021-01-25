@@ -1,4 +1,4 @@
-import FoodListStack from './components/FoodList.js';
+import MenuNavigation from './navigation/MenuNavigation.js';
 import HomeNavigation from './navigation/HomeNavigation.js'
 
 // import AddStack from './components/Add.js'
@@ -34,7 +34,7 @@ export default function App() {
         component={HomeNavigation} 
         
         />
-        <Tab.Screen name = "Food" component = {FoodListStack}/>
+        <Tab.Screen name = "Menu" component = {MenuNavigation}/>
         {/* <Tab.Screen name="Add" component={AddStack}/> */}
       </Tab.Navigator>
     </NavigationContainer>

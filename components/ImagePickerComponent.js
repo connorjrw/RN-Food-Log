@@ -1,7 +1,3 @@
-// Example of Image Picker in React Native
-// https://aboutreact.com/example-of-image-picker-in-react-native/
-
-// Import React
 import React, {useState} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 // Import required components

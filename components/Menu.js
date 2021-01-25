@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React,  { useState } from 'react';
 import { StyleSheet, Text, View, Header, ScrollView, Image } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationHelpersContext, useFocusEffect } from '@react-navigation/native';
-import Food from './FoodItem.js'
-import Add from './Add.js'
+import { useFocusEffect } from '@react-navigation/native';
+
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ustyles from '../std-styles.js'
 import GeneralButton from './GeneralButton.js'
 
-
 const axios = require('axios');
 const api = "http://connor.local:3000/"
+
 var fileUrl = require('file-url');  
 process.cwd = function () {
   return '/';
 }
-const Stack = createStackNavigator();
 
 function getUrl(url){
   return fileUrl('/Users/con/Desktop/React/FoodBus/Images/' + url.toString() + '.png')
@@ -30,7 +27,7 @@ function changepage(navigate, data){
   }})
 }
 
-function FoodList({ navigation: { navigate } }) {
+export default function Menu({ navigation: { navigate } }) {
   const [data, setData] = useState([]);
   useFocusEffect(
     React.useCallback(() => {
@@ -43,8 +40,6 @@ function FoodList({ navigation: { navigate } }) {
       })
       return () => {
         isMounted = false
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
       };
     }, [])
   );
@@ -110,41 +105,7 @@ const FLStyles = StyleSheet.create({
     },
 })
 
-export default function FoodListStack() {
 
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={FoodList}
-        options={
-          {
-            title: 'Food',
-            headerStyle: {
-              borderWidth:0.5,
-              backgroundColor: 'white',
-              height: 100
-            },
-            headerTitleStyle: {
-              fontSize: 23,
-              textAlign: 'left'
-            }
-          }
-        }
-
-      />
-      <Stack.Screen 
-        name = "Food"
-        component = {Food}>
-        </Stack.Screen>
-        <Stack.Screen
-        name = "Add"
-        component = {Add}>
-
-        </Stack.Screen>
-    </Stack.Navigator>
-  );
-}
 
 
 
