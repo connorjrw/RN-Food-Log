@@ -1,12 +1,8 @@
 import FoodListStack from './components/FoodList.js';
-import HomeStack from './components/Home.js'
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import HomeNavigation from './navigation/HomeNavigation.js'
 
-
-
-import AddStack from './components/Add.js'
-import { StyleSheet, Text, View } from 'react-native';
+// import AddStack from './components/Add.js'
+// import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import 'react-native-gesture-handler';
 import * as React from 'react';
@@ -22,42 +18,20 @@ export default function App() {
         tabBarOptions={{
           tabBarLabel: 'Home',
           style:{
-            // size:30,
-            // he
             backgroundColor:'#293236'
           },
           labelStyle: {
             fontSize: 25,
-            // marginTop:10
-            // padding
-            // paddingBottom:10
           },
         }}
-        // screenOptions={({ route }) => ({
-        //   tabBarIcon: ({ color, size }) => {
-        //     const icons = {
-        //       Home: 'home',
-        //       Profile: 'account',
-        //     };
-      
-        //     return (
-        //       <Icon
-        //         name={icons[route.name]}
-        //         color={color}
-        //         size={40}
-        //         // height={50}
-        //         marginBottom={10}
-        //       />
-        //     );
-        //   },
-        // })}
+
       >
         <Tab.Screen name="Home"
         options={{ title: 'Home', style : {
           color:'red'
         }}}
 
-        component={HomeStack} 
+        component={HomeNavigation} 
         
         />
         <Tab.Screen name = "Food" component = {FoodListStack}/>
