@@ -51,11 +51,12 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.get('/foodlog', (req, res) =>{
       date_req = req.query.date
       var final_result = [];
+      var new_result = {};
       db.collection('foodlog').find({date:date_req}).toArray()
       .then(results => {
             (async function loop() {
               if(results.length == 0){
-                res.send([])
+                res.send({})
               }
               else{
               for (let i = 0; i < results.length; i++) {
@@ -72,45 +73,25 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
                               "date":results[i].date,
                               "type":results[i].type
                             }
+                            if (!new_result[results[i].type]){
+                              new_result[results[i].type] = []
+                            }
+                            new_result[results[i].type].push(currentResult)
                             final_result.push(currentResult)
                             if(i == results.length - 1){
-                              final_result.sort(function(a, b){
-                                let aVal = 0
-                                let bVal = 0
-                                // console.log('namea.name)
-                                switch(a.type){
-                                  case 'Breakfast':
-                                    aVal = 1
-                                    break;
-                                  case 'Lunch':
-                                    aVal = 2
-                                    break;
-                                  case 'Dinner':
-                                    aVal = 3
-                                    break;
-                                }
-                                switch(b.type){
-                                  case 'Breakfast':
-                                    bVal = 1
-                                    break;
-                                  case 'Lunch':
-                                    bVal = 2
-                                    break;
-                                  case 'Dinner':
-                                    bVal = 3
-                                    break;
-                                }
-                                console.log(aVal, bVal, a.type)
-                                if (aVal < bVal) {
-                                  return -1;
-                                }
-                                if (aVal > bVal) {
-                                  return 1;
-                                }
-                                return 0;
-                              })
-                              // console.log('final', final_result)
-                              res.send(final_result)
+                              let ordered_result = {}
+                              console.log(new_result,'new')
+                              if(new_result['Breakfast']){
+                                ordered_result['Breakfast'] = new_result['Breakfast']
+                              }
+                              if(new_result['Lunch']){
+                                ordered_result['Lunch'] = new_result['Lunch']
+                              }
+                              if(new_result['Dinner']){
+                                ordered_result['Dinner'] = new_result['Dinner']
+                              }
+                            
+                              res.send(ordered_result)
                             }
                             resolve()
                           }).catch(err => {

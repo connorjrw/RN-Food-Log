@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavigationHelpersContext, useFocusEffect } from '@react-navigation/native';
 import { StyleSheet, Text, View, TouchableOpacity  } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import FoodItemButton from './FoodItemButton.js'
+import MenuItemButton from './MenuItemButton.js'
 import GeneralButton from './GeneralButton.js'
 
 const axios = require('axios');
@@ -83,12 +83,12 @@ export default function AddEntry(props) {
       <ScrollView>
         {data.map(dataitem => 
         <View key = {dataitem._id}>
-        <FoodItemButton fooddata = {dataitem} onPress = { () => {
+        <MenuItemButton fooddata = {dataitem} onPress = { () => {
           const updatedData = JSON.parse(JSON.stringify(select(dataitem, data)));
           setData(updatedData)
           setSelectedItem(dataitem)
           }}>
-        </FoodItemButton>
+        </MenuItemButton>
         </View>)}
       </ScrollView>
     </View>

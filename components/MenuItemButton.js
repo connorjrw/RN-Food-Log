@@ -1,9 +1,11 @@
+//displays a menu item with name description photo, to select when adding an entry
+
 import { StyleSheet, Text, TouchableOpacity, View, Image  } from 'react-native';
 import React, { useState } from 'react';
 var fileUrl = require('file-url');  
 
 
-export default function FoodItemButton(props){
+export default function MenuItemButton(props){
     const [refresh, setRefresh] = useState('')
     return(
     <TouchableOpacity 

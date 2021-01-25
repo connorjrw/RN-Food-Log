@@ -65,6 +65,36 @@ export default function Home({ navigation: { navigate } }) {
           </View>
        </View>
        <View style = {styles.contentwrap}>
+         {Object.entries(foodlog).map(([key, values]) => 
+            <View key = {key} style = {styles.fooditem}>
+              <View style = {styles.typewrap}>
+                <Text style = {styles.type}>{key}</Text>
+              </View>
+
+              {values.map((value, i) => 
+                  <View key = {i}  style = {[styles.foodwrap, (i == values.length - 1) ? styles.curved : styles.foodwrap]}>
+                    <Text style = {styles.foodname}>{value.name}</Text>
+              {/* <Text>{values}</Text> */}
+
+                    <Image
+                      source={{url: getUrl(value.recipe_id)}}
+                      style={[styles.imageStyle, (i == values.length -1) ? styles.imageCurved : styles.imageStyle]}
+                    />
+                    </View>
+                )}
+              {/* <View style = {styles.typewrap}>
+                <Text style = {styles.type}>{foodlog.type}</Text>
+              </View>
+              <View style = {styles.foodwrap}>
+                <Text style = {styles.foodname}>{foodlog.name}</Text>
+                <Image
+                  source={{url: getUrl(foodlog.recipe_id)}}
+                  style={styles.imageStyle}
+                />
+                </View> */}
+            </View>)}
+       </View>
+       {/* <View style = {styles.contentwrap}>
          {foodlog.map(foodlog => 
             <View key = {foodlog._id} style = {styles.fooditem}>
               <View style = {styles.typewrap}>
@@ -78,7 +108,7 @@ export default function Home({ navigation: { navigate } }) {
                 />
                 </View>
             </View>)}
-       </View>
+       </View> */}
        <TouchableOpacity
         style={styles.button}
         onPress={ () => {changePage(navigate, selectedDate)}}
@@ -139,9 +169,13 @@ const styles = StyleSheet.create({
     marginLeft:20,
     borderWidth:1,
     marginHorizontal:20, 
+    // borderBottomLeftRadius:10,
+    // borderBottomRightRadius:10,
+    height:100
+  },
+  curved:{
     borderBottomLeftRadius:10,
     borderBottomRightRadius:10,
-    height:100
   },
   foodname:{
     fontSize:20,
@@ -162,8 +196,11 @@ const styles = StyleSheet.create({
     fontSize:20,
     color:'#1e90ff',
   }, 
+  imageCurved:{
+    borderBottomRightRadius:10,
+  },
   imageStyle: {
-    borderRadius:10,
+    // borderRadius:10,
     paddingRight:2,
     width: 99,
     height: 99,
