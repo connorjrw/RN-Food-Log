@@ -2,6 +2,7 @@ import React from 'react';
 import AddEntry from '../components/AddEntry.js'
 import Home from '../components/Home.js'
 import { createStackNavigator } from '@react-navigation/stack';
+import AddMenuItem from '../components/AddMenuItem.js';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,11 @@ export default function HomeNavigation({ navigation: { navigate } }){
         <Stack.Screen 
           name = "Add Entry"
           component = {AddEntry}
+          >
+        </Stack.Screen>
+        <Stack.Screen 
+          name = "Add New"
+          component = {AddMenuItem}
           >
         </Stack.Screen>
         

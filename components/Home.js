@@ -18,15 +18,13 @@ function changePage(navigate, selectedDate){
   navigate('Add Entry', {date:selectedDate, navigate:navigate})
 }
 
-export default function Home({ navigation: { navigate } }) {
+export default function Home({ navigation: { navigate, goBack } }, props) {
   var today = new Date()
   const [selectedDate, setDate] = useState(utils.formatDate(today));
   const [foodlog, setLog] = useState([]);
-
   useFocusEffect(
     React.useCallback(() => {
       let isMounted = true; 
-      console.log('asd')
       axios.get(api + "foodlog", {
         params:{
           date:selectedDate

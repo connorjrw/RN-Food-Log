@@ -6,7 +6,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import ImagePickerComponent from './ImagePickerComponent'
 
 const Stack = createStackNavigator();
-export default function AddMenuItem({navigation:{navigate}}) {
+export default function AddMenuItem({navigation:{navigate, goBack}}) {
 
   const [name, nameOnChange] = React.useState('');
   const [description, descOnChange] = React.useState('')
@@ -22,7 +22,8 @@ export default function AddMenuItem({navigation:{navigate}}) {
       descOnChange('')
       nameOnChange('')
       updatePhoto('')
-      navigate('Home') //Shouldn't work but it does?
+      goBack({test:'test'})
+      // navigate('', {test:'test'}) //Shouldn't work but it does?
     }).catch(err => {
       console.log(err)
     })  

@@ -30,6 +30,9 @@ function addEntry(selectedItem, selectedType, selectedDate, navigate){
     navigate('Home')
   })
 }
+function addNew(navigate){
+  navigate('Add New')
+}
 
 export default function AddEntry(props) {
   const [data, setData] = useState([]);
@@ -92,11 +95,20 @@ export default function AddEntry(props) {
         </View>)}
       </ScrollView>
     </View>
+    <View style = {styles.addwrap}>
     <View style = {styles.submit}>
       <GeneralButton text = 'Add' 
       onPress = {() => {addEntry(selectedItem, selectedType, selectedDate, navigate)}}
       buttonstyle = {styles.addbutton}></GeneralButton>
     </View>
+    <View style = {styles.submit}>
+      <GeneralButton text = 'New' 
+      onPress = {() => {addNew(navigate)}}
+      buttonstyle = {styles.addbutton}></GeneralButton>
+    </View>
+    </View>
+
+  
     </View>
   );
 }
@@ -139,6 +151,11 @@ const styles = StyleSheet.create({
     // marginTop:20,
     height:80,
   }, 
+  addwrap:{
+    flex:1,
+    flexDirection:'row',
+    alignSelf:'center'
+  },
   button2:{
     flex:1,
     flexDirection:'row',
@@ -146,11 +163,15 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
   },
   submit:{
-    alignSelf:'center'
+    alignItems:'center',
+    marginHorizontal:10,
+    // alignSelf:'center'
   }, 
   addbutton:{
     // marginTop:10,
+    alignSelf:'auto',
     paddingTop:8,
+    
     height:40
   }
 })
