@@ -7,6 +7,11 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const api = "http://connor.local:3000/"
 const axios = require('axios');
 
+var fileUrl = require('file-url');  
+process.cwd = function () {
+  return '/';
+}
+
 function removeFood(navigation, id){
     navigation.navigate('Home')
 
@@ -18,6 +23,11 @@ function removeFood(navigation, id){
         console.log(err)
    })
  }
+
+ function getUrl(url){
+  return fileUrl('/Users/con/Desktop/React/FoodBus/Images/' + url.toString() + '.png')
+}
+
  function editPress(navigation, name, description, photo, recipe, id){
     navigation.navigate('Add', {
       name: name, 
@@ -27,7 +37,7 @@ function removeFood(navigation, id){
       id:id
       })
  }
-
+ 
 export default function MenuItem(props) {
    const [name, setName] = useState('');
    const [description, setDescription] = useState('');
@@ -39,19 +49,55 @@ export default function MenuItem(props) {
 
    useFocusEffect(
     React.useCallback(() => {
-        
-        setName(props.route.params.data.name)
-        setDescription(props.route.params.data.description)
-        setPhoto(props.route.params.data.photo)
-        setId(props.route.params.data.id)
-        setRecipe(props.route.params.data.recipe)
+      let isActive = true;
       let isMounted = true; 
+      setId(props.route.params.data.id)
+      const getRecipe = async () => {
+        try {
+          const response = await axios.get(api + "getrecipe", {params: { id:props.route.params.data.id} });
+          let result = response.data[0]
+          //     console.log('res', result._id)
+              setName(result.name)
+              setDescription(result.description)
+              if(isActive){
+                setPhoto(getUrl(result._id))
+              }
+          //     // setId(props.route.params.data.id)
+          //     setRecipe(result.recipe)
+             //   axios.get(api + "getrecipe", {
+    //     params:{
+    //       id:props.route.params.data.id
+    //     }
+          
+        } catch (e) {
+          // Handle error
+        }
+      };
+      getRecipe();
+      
+    //   axios.get(api + "getrecipe", {
+    //     params:{
+    //       id:props.route.params.data.id
+    //     }
+    //   }).then(response => {
+    //     let result = response.data[0]
+    //     console.log('res', result._id)
+    //     setName(result.name)
+    //     setDescription(result.description)
+    //     setPhoto(getUrl(result._id))
+    //     // setId(props.route.params.data.id)
+    //     setRecipe(result.recipe)
+    //     console.log('photo is', photo)
+    //   })
+    // }
+        
       return () => {
         isMounted = false
+        isActive = false
         // Do something when the screen is unfocused
         // Useful for cleanup functions
       };
-    }, [])
+    }, [photo])
   );
   return (
     <View style = {styles.container}>
@@ -59,7 +105,6 @@ export default function MenuItem(props) {
         <Text style = {styles.name}>{name}</Text>
         <Text style = {styles.description}>{description}</Text>
         <Text style = {styles.recipe}>{recipe}</Text>
-
         <Image
             source={{url: photo}}
             style={styles.imageStyle}

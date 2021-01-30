@@ -7,6 +7,16 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import ImagePickerComponent from './ImagePickerComponent'
 
+var fileUrl = require('file-url');  
+process.cwd = function () {
+  return '/';
+}
+
+function getUrl(url){
+  return fileUrl('/Users/con/Desktop/React/FoodBus/Images/' + url.toString() + '.png')
+}
+
+
 function select(dataitem, data){
   console.log(dataitem)
   for(var item in data){
@@ -25,18 +35,19 @@ const Stack = createStackNavigator();
 export default function AddMenuItem({navigation:{navigate, goBack}, route}, props) {
   const [name, nameOnChange] = React.useState('');
   const [description, descOnChange] = React.useState('')
-  const [photo, updatePhoto] = React.useState('')
+  const [photo, updatePhoto] = React.useState(route.params.photo)
   const [recipe, recipeOnChange] = React.useState('')
   const [id, setId] = React.useState('')
   
   useFocusEffect(
     React.useCallback(() => {
       if(route.params){
+        setId(route.params.id)
         nameOnChange(route.params.name)
         descOnChange(route.params.description)
-        updatePhoto(route.params.photo)
+        // updatePhoto(route.params.photo)
         recipeOnChange(route.params.recipe)
-        setId(route.params.id)
+        console.log('photo4', photo)
       }
       let isMounted = true; 
       return () => {
@@ -44,15 +55,16 @@ export default function AddMenuItem({navigation:{navigate, goBack}, route}, prop
         // Do something when the screen is unfocused
         // Useful for cleanup functions
       };
-    }, [])
+    }, [photo])
   );
   function AddPress() {
+    console.log('the', photo)
     axios.post(api + 'addrecipe', {
       name: name,
       description: description,
       photoLocation:photo.uri,
       fileName:photo.fileName, 
-      recipe:recipe, 
+      recipe:recipe,  
       id:id
     }).then(res => {
       descOnChange('')
@@ -97,7 +109,10 @@ export default function AddMenuItem({navigation:{navigate, goBack}, route}, prop
       </TextInput>
       </View>
       <View>
-      <ImagePickerComponent photo = {photo => updatePhoto(photo)}/>
+      <ImagePickerComponent 
+        photo = {photo => updatePhoto(photo)} 
+        currentPhoto = {photo}>
+        </ImagePickerComponent>
       </View>
 
       <View style = {styles.recipecontainer}>

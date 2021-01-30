@@ -35,6 +35,8 @@ var mongodb = require('mongodb');
 
 const MongoClient = require('mongodb').MongoClient
 
+
+
 MongoClient.connect(connectionString, { useUnifiedTopology: true })
   .then(client => {
     const db = client.db('recipes')
@@ -46,6 +48,13 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         .then(results => {
             var reversed_results = results.reverse()
             res.send(reversed_results)
+        })
+    })
+    app.get('/getrecipe/', (req,res) => {
+      console.log(req.query)
+      db.collection('recipes').find({"_id":new mongodb.ObjectId(req.query.id)}).toArray()
+        .then(results => {
+          res.send(results)
         })
     })
     app.get('/foodlog', (req, res) =>{
@@ -124,6 +133,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
     })
     app.post('/addrecipe', (req, res) => {
+      console.log('rec', req.body)
         if(req.body.id == ''){
         db.collection('recipes').insertOne(req.body)
           .then(result => {
@@ -141,11 +151,22 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         } else{
           console.log('does this work?', req.body)
           var query = {"_id":new mongodb.ObjectId(req.body.id)}
-          db.collection('recipes').updateOne(query, req.body, () => {
-            // console.log(res)
-            console.log('updated')
-            // res.send()
-        }).catch(err => {
+          db.collection('recipes').updateOne(query, {$set:req.body}, {upsert:true}).then(result => {
+            if(req.body.photoLocation){ //only if photo has been chosen
+              console.log('result', result.insertedId)
+              var oldPath = req.body.photoLocation.substr(7)
+              var newPath = './Images/' + req.body.id + '.png'
+              fs.unlinkSync(newPath)
+              fs.rename(oldPath, newPath, (err) => {
+                console.log('do nothing with error')
+              })
+              console.log('sending??')
+            }
+            console.log('res', result)
+            res.send(req.body)
+
+          })
+        .catch(err => {
           console.log(err)
         })
         }

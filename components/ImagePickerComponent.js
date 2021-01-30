@@ -16,10 +16,11 @@ var ImagePicker = require('react-native-image-picker');
 
 
 const ImagePickerComponent = (props) => {
-  const [filePath, setFilePath] = useState({});
+  const [filePath, setFilePath] = useState({uri:props.currentPhoto});
   useFocusEffect(
     React.useCallback(() => {
       let isMounted = true; 
+      // setFilePath(props.currentPhoto)
     
       return () => {
         // Remove photo once we change screens
@@ -57,9 +58,8 @@ const ImagePickerComponent = (props) => {
         // let source = {
         //   uri: 'data:image/jpeg;base64,' + response.data
         // };
-        console.log(source)
+        console.log('serc', source)
         props.photo(source)
-        console.log(source)
         setFilePath(source);
       }
     });
@@ -83,7 +83,8 @@ const ImagePickerComponent = (props) => {
         </View>
         <Image
           source={{
-            uri: 'data:image/jpeg;base64,' + filePath.data,
+            url: filePath.uri,
+            // url:filePath
           }}
           style={styles.imageStyle}
         />
