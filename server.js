@@ -124,6 +124,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
     })
     app.post('/addrecipe', (req, res) => {
+        if(req.body.id == ''){
         db.collection('recipes').insertOne(req.body)
           .then(result => {
             if(req.body.photoLocation){ //only if photo has been chosen
@@ -137,11 +138,24 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             res.send(result.ops[0])
           })
           .catch(error => console.error(error))
-        }) 
-      }).catch(error => console.error(error))
+        } else{
+          console.log('does this work?', req.body)
+          var query = {"_id":new mongodb.ObjectId(req.body.id)}
+          db.collection('recipes').updateOne(query, req.body, () => {
+            // console.log(res)
+            console.log('updated')
+            // res.send()
+        }).catch(err => {
+          console.log(err)
+        })
+        }
+      })
+    })
+    
+   
 
 
 app.listen(3000, function() {
     console.log('listening on 3000')
   })
-
+  

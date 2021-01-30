@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { NavigationHelpersContext, useFocusEffect } from '@react-navigation/native';
+
 const axios = require('axios');
 const api = "http://connor.local:3000/"
 import { createStackNavigator } from '@react-navigation/stack';
@@ -21,28 +23,49 @@ function select(dataitem, data){
 
 const Stack = createStackNavigator();
 export default function AddMenuItem({navigation:{navigate, goBack}, route}, props) {
-  // const select = route.params.select
   const [name, nameOnChange] = React.useState('');
   const [description, descOnChange] = React.useState('')
-  const [photo, updatePhoto] = React.useState('Photo')
+  const [photo, updatePhoto] = React.useState('')
+  const [recipe, recipeOnChange] = React.useState('')
+  const [id, setId] = React.useState('')
   
+  useFocusEffect(
+    React.useCallback(() => {
+      if(route.params){
+        nameOnChange(route.params.name)
+        descOnChange(route.params.description)
+        updatePhoto(route.params.photo)
+        recipeOnChange(route.params.recipe)
+        setId(route.params.id)
+      }
+      let isMounted = true; 
+      return () => {
+        isMounted = false
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, [])
+  );
   function AddPress() {
-    console.log('adding!!!')
     axios.post(api + 'addrecipe', {
       name: name,
       description: description,
       photoLocation:photo.uri,
-      fileName:photo.fileName
+      fileName:photo.fileName, 
+      recipe:recipe, 
+      id:id
     }).then(res => {
-      console.log('done???')
       descOnChange('')
       nameOnChange('')
+      recipeOnChange('')
       updatePhoto('')
-      
       if(route.params){ //coming from Add Entry page
-        route.params.selectedItemSet(res.data)  
+        if(route.params.selectedItemSet){
+          route.params.selectedItemSet(res.data)  
+        }
       }
       goBack() 
+    
     }).catch(err => {
       console.log(err)
     })  
@@ -73,7 +96,27 @@ export default function AddMenuItem({navigation:{navigate, goBack}, route}, prop
         value={description}>
       </TextInput>
       </View>
+      <View>
       <ImagePickerComponent photo = {photo => updatePhoto(photo)}/>
+      </View>
+
+      <View style = {styles.recipecontainer}>
+      <View style = {styles.recipetextwrap}>
+        <Text style = {styles.inputtitle}>Recipe</Text>
+      </View>
+      <View style = {styles.recipeinputwrap}>
+
+      <TextInput
+        multiline={true}
+        numberOfLines={10}
+        style={styles.recipeinput}
+        onChangeText={recipe => recipeOnChange(recipe)}
+        value={recipe}
+        >
+      </TextInput>
+      </View>
+
+      </View>
       <TouchableOpacity
         style={styles.button}
         onPress={AddPress}
@@ -117,6 +160,11 @@ const styles = StyleSheet.create({
     backgroundColor:'#293236',
     borderRadius:5,
   },
+  recipetextwrap:{
+    backgroundColor:'#293236',
+    borderRadius:5,
+    height:60
+  },
   inputtitle:{
     paddingLeft:5,
     fontSize:20,
@@ -136,5 +184,26 @@ const styles = StyleSheet.create({
   buttontext:{
     fontSize:20,
     color:'#1e90ff',
+  }, 
+  recipecontainer:{
+    // alignItems:'stretch',
+    // flexDirection:'row',
+    height: 300,
+    marginLeft: 5,
+    marginRight:5,
+    marginTop: 20,
+    borderWidth:0.5,
+    fontSize:20,
+    borderRadius:5,
+  }, 
+  recipeinputwrap:{
+    alignItems:'stretch',
+    flexDirection:'column',
+    flex:1,
+    height:200,
+  }, 
+  recipeinput:{
+    height:200, 
+    fontSize:20
   }
 });

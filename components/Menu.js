@@ -23,6 +23,7 @@ function changepage(navigate, data){
     description:data.description,
     id:data._id,
     navigate:navigate,
+    recipe:data.recipe,
     photo:getUrl(data._id)
   }})
 }

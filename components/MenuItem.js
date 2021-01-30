@@ -18,22 +18,33 @@ function removeFood(navigation, id){
         console.log(err)
    })
  }
+ function editPress(navigation, name, description, photo, recipe, id){
+    navigation.navigate('Add', {
+      name: name, 
+      description:description, 
+      photo:photo, 
+      recipe:recipe, 
+      id:id
+      })
+ }
 
 export default function MenuItem(props) {
    const [name, setName] = useState('');
    const [description, setDescription] = useState('');
    const [photo, setPhoto] = useState('');
+   const [recipe, setRecipe] = useState('')
    const [id, setId] = useState('')
 
    
 
    useFocusEffect(
     React.useCallback(() => {
-        console.log(props.navigation)
+        
         setName(props.route.params.data.name)
         setDescription(props.route.params.data.description)
         setPhoto(props.route.params.data.photo)
         setId(props.route.params.data.id)
+        setRecipe(props.route.params.data.recipe)
       let isMounted = true; 
       return () => {
         isMounted = false
@@ -47,6 +58,8 @@ export default function MenuItem(props) {
         <View style = {styles.foodwrap}>
         <Text style = {styles.name}>{name}</Text>
         <Text style = {styles.description}>{description}</Text>
+        <Text style = {styles.recipe}>{recipe}</Text>
+
         <Image
             source={{url: photo}}
             style={styles.imageStyle}
@@ -55,7 +68,7 @@ export default function MenuItem(props) {
         <View style = {styles.buttonwrap}>
         <TouchableOpacity
         style={styles.button}
-        // onPress={AddPress}
+        onPress = { () =>  {editPress(props.navigation, name, description, photo, recipe, id)}}
         >
         <Text style = {styles.buttontext}>Edit</Text>
       </TouchableOpacity>

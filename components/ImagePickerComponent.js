@@ -97,6 +97,7 @@ export default ImagePickerComponent;
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
+    marginBottom:20,
     height:60,
   },
   titleText: {
@@ -141,6 +142,7 @@ const styles = StyleSheet.create({
     width:130
   },
   wrapper:{
+    // marginBottom:20,
     flex: 1,
     flexDirection: 'column',
   }
