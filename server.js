@@ -44,8 +44,8 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         console.log('asd')
         db.collection('recipes').find().toArray()
         .then(results => {
-            console.log(results)
-            res.send(results)
+            var reversed_results = results.reverse()
+            res.send(reversed_results)
         })
     })
     app.get('/foodlog', (req, res) =>{
@@ -126,12 +126,14 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.post('/addrecipe', (req, res) => {
         db.collection('recipes').insertOne(req.body)
           .then(result => {
+            if(req.body.photoLocation){ //only if photo has been chosen
             var oldPath = req.body.photoLocation.substr(7)
             var newPath = './Images/' + result.insertedId + '.png'
             fs.rename(oldPath, newPath, (err) => {
               console.log('do nothing with error')
             })
             console.log('sending??')
+          }
             res.send(result.ops[0])
           })
           .catch(error => console.error(error))

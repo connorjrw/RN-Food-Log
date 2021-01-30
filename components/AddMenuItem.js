@@ -39,14 +39,10 @@ export default function AddMenuItem({navigation:{navigate, goBack}, route}, prop
       nameOnChange('')
       updatePhoto('')
       
-      console.log('selected', route.params)
-      // let test = route.params.select = 'rest'
-      // console.log('test', test)
-      // res.data['selected'] = 'True' 
-      // let updatedData = JSON.parse(JSON.stringify(select(res.data, route.params.data)));
-      // route.params.dataSet(updatedData)
-      route.params.selectedItemSet(res.data)  
-      goBack() //Shouldn't work but it does?
+      if(route.params){ //coming from Add Entry page
+        route.params.selectedItemSet(res.data)  
+      }
+      goBack() 
     }).catch(err => {
       console.log(err)
     })  
