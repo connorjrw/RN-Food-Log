@@ -9,6 +9,7 @@ const axios = require('axios');
 const api = "http://connor.local:3000/"
 
 function select(dataitem, data){
+  console.log(dataitem)
   for(var item in data){
     if(data[item]._id == dataitem._id){
       console.log('setting to true')
@@ -30,8 +31,16 @@ function addEntry(selectedItem, selectedType, selectedDate, navigate){
     navigate('Home')
   })
 }
-function addNew(navigate){
-  navigate('Add New')
+function addNew(navigate, selectedItemSet, dataSet, data){
+  // console.log('selected', select)
+  // const updatedData = JSON.parse(JSON.stringify(select(dataitem, data)));
+  //         setData(updatedData)
+  //         setSelectedItem(dataitem)  
+  navigate('Add New', {
+    selectedItemSet:selectedItemSet, 
+    dataSet:dataSet,
+    data:data
+  })
 }
 
 export default function AddEntry(props) {
@@ -43,11 +52,15 @@ export default function AddEntry(props) {
   useFocusEffect(
     React.useCallback(() => {
       let isMounted = true; 
-      // console.log('date?',  props.params.date)
       axios.get(api + "recipes").then(response => {
-        // final = {}
+        console.log('selected item', selectedItem)
         for(var item in response.data){
-          response.data[item]['selected'] = 'False'
+          console.log(selectedItem, response.data[item]['_id'], 'ser')
+          if(selectedItem['_id'] == response.data[item]['_id'] ){
+            response.data[item]['selected'] = 'True'
+          }else{
+            response.data[item]['selected'] = 'False'
+          }
         }
         setData(response.data)
       }).catch(err => {
@@ -58,7 +71,7 @@ export default function AddEntry(props) {
         // Do something when the screen is unfocused
         // Useful for cleanup functions
       };
-    }, [])
+    }, [selectedItem])
   );
   return (
     <View style = {styles.container}>
@@ -102,8 +115,13 @@ export default function AddEntry(props) {
       buttonstyle = {styles.addbutton}></GeneralButton>
     </View>
     <View style = {styles.submit}>
-      <GeneralButton text = 'New' 
-      onPress = {() => {addNew(navigate)}}
+      <GeneralButton text = 'New'
+      onPress = {() => {addNew(
+        navigate, 
+        selectedItemSet => setSelectedItem(selectedItemSet), 
+        dataSet => setData(dataSet),
+        data)}
+      }
       buttonstyle = {styles.addbutton}></GeneralButton>
     </View>
     </View>

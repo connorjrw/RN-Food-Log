@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     GeneralButton:{
         alignSelf:'center',
         alignItems:'center',
-        marginTop: 40,
+        // marginTop: 40,
         width:150,
         // height:30,
         borderRadius:5,

@@ -5,25 +5,48 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import ImagePickerComponent from './ImagePickerComponent'
 
-const Stack = createStackNavigator();
-export default function AddMenuItem({navigation:{navigate, goBack}}) {
+function select(dataitem, data){
+  console.log(dataitem)
+  for(var item in data){
+    if(data[item]._id == dataitem._id){
+      console.log('setting to true')
+      data[item]['selected'] = 'True'
+    }else{
+      console.log('setting to false..')
+      data[item]['selected'] = 'False'
+    }
+  }
+  return data
+}
 
+const Stack = createStackNavigator();
+export default function AddMenuItem({navigation:{navigate, goBack}, route}, props) {
+  // const select = route.params.select
   const [name, nameOnChange] = React.useState('');
   const [description, descOnChange] = React.useState('')
   const [photo, updatePhoto] = React.useState('Photo')
   
   function AddPress() {
+    console.log('adding!!!')
     axios.post(api + 'addrecipe', {
       name: name,
       description: description,
       photoLocation:photo.uri,
       fileName:photo.fileName
     }).then(res => {
+      console.log('done???')
       descOnChange('')
       nameOnChange('')
       updatePhoto('')
-      goBack({test:'test'})
-      // navigate('', {test:'test'}) //Shouldn't work but it does?
+      
+      console.log('selected', route.params)
+      // let test = route.params.select = 'rest'
+      // console.log('test', test)
+      // res.data['selected'] = 'True' 
+      // let updatedData = JSON.parse(JSON.stringify(select(res.data, route.params.data)));
+      // route.params.dataSet(updatedData)
+      route.params.selectedItemSet(res.data)  
+      goBack() //Shouldn't work but it does?
     }).catch(err => {
       console.log(err)
     })  
