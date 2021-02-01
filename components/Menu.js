@@ -1,13 +1,13 @@
 import React,  { useState } from 'react';
 import { StyleSheet, Text, View, Header, ScrollView, Image } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ustyles from '../std-styles.js'
 import GeneralButton from './GeneralButton.js'
+import config from '../config.js'
 
 const axios = require('axios');
-const api = "http://connor.local:3000/"
+const api = config.api
 
 var fileUrl = require('file-url');  
 process.cwd = function () {

@@ -1,42 +1,21 @@
 const express = require('express');
 const app = express();
 const connectionString = 'mongodb://localhost:27017/'
+
 var cors = require('cors')
 app.use(cors())
+
 const multer = require('multer');
 const path = require('path');
-const helpers = require('./helpers');
 app.use(express.static(__dirname));
 var fs = require('fs')
 
-
-
-
 var bodyParser = require('body-parser')
-  
-// parse application/x-www-form-urlencoded
-// app.use(bodyParser.urlencoded({ extended: false }))
- 
-// parse application/json
 app.use(bodyParser.json())
 
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-      cb(null, 'uploads/');
-  },
-
-  // By default, multer removes file extensions so let's add them back
-  filename: function(req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-  }
-});
 
 var mongodb = require('mongodb');
-
 const MongoClient = require('mongodb').MongoClient
-
-
-
 MongoClient.connect(connectionString, { useUnifiedTopology: true })
   .then(client => {
     const db = client.db('recipes')
@@ -119,9 +98,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       var query = {"_id":new mongodb.ObjectId(req.body.id)}
       console.log(query)
       db.collection('recipes').deleteOne(query, () => {
-          // console.log(res)
-          console.log('deleted')
-          // res.send()
+          res.send()
       }).catch(err => {
         console.log(err)
       })
@@ -133,7 +110,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
     })
     app.post('/addrecipe', (req, res) => {
-      console.log('rec', req.body)
         if(req.body.id == ''){
         db.collection('recipes').insertOne(req.body)
           .then(result => {
@@ -141,15 +117,13 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             var oldPath = req.body.photoLocation.substr(7)
             var newPath = './Images/' + result.insertedId + '.png'
             fs.rename(oldPath, newPath, (err) => {
-              console.log('do nothing with error')
             })
-            console.log('sending??')
           }
             res.send(result.ops[0])
           })
           .catch(error => console.error(error))
         } else{
-          console.log('does this work?', req.body)
+
           var query = {"_id":new mongodb.ObjectId(req.body.id)}
           db.collection('recipes').updateOne(query, {$set:req.body}, {upsert:true}).then(result => {
             if(req.body.photoLocation){ //only if photo has been chosen
@@ -160,9 +134,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
               fs.rename(oldPath, newPath, (err) => {
                 console.log('do nothing with error')
               })
-              console.log('sending??')
             }
-            console.log('res', result)
             res.send(req.body)
 
           })
@@ -172,8 +144,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }
       })
     })
-    
-   
 
 
 app.listen(3000, function() {

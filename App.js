@@ -1,15 +1,12 @@
 import MenuNavigation from './navigation/MenuNavigation.js';
 import HomeNavigation from './navigation/HomeNavigation.js'
 
-// import AddStack from './components/Add.js'
-// import { StyleSheet, Text, View } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
-
 
 export default function App() {
   return (
@@ -17,8 +14,8 @@ export default function App() {
       <Tab.Navigator
         tabBarOptions={{
           tabBarLabel: 'Home',
-          style:{
-            backgroundColor:'#293236'
+          style: {
+            backgroundColor: '#293236'
           },
           labelStyle: {
             fontSize: 25,
@@ -27,15 +24,16 @@ export default function App() {
 
       >
         <Tab.Screen name="Home"
-        options={{ title: 'Home', style : {
-          color:'red'
-        }}}
+          options={{
+            title: 'Home', style: {
+              color: 'red'
+            }
+          }}
 
-        component={HomeNavigation} 
-        
+          component={HomeNavigation}
+
         />
-        <Tab.Screen name = "Menu" component = {MenuNavigation}/>
-        {/* <Tab.Screen name="Add" component={AddStack}/> */}
+        <Tab.Screen name="Menu" component={MenuNavigation} />
       </Tab.Navigator>
     </NavigationContainer>
   );
