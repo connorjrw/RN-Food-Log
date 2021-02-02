@@ -9,7 +9,6 @@ const axios = require('axios');
 const api = config.api
 
 export default function AddMenuItem({ navigation: { navigate, goBack }, route }, props) {
-
   //check if we are editing rather than adding a new record
   var existingPhoto = false
   if (route.params) {
@@ -26,6 +25,7 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
 
   useFocusEffect(
     React.useCallback(() => {
+
       let isMounted = true;
       if (route.params) {
         setId(route.params.id)

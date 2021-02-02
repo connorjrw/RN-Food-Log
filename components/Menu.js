@@ -5,6 +5,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import ustyles from '../std-styles.js'
 import GeneralButton from './GeneralButton.js'
 import config from '../config.js'
+import { useIsFocused } from '@react-navigation/native';
+
 
 const axios = require('axios');
 const api = config.api
@@ -30,9 +32,11 @@ function changepage(navigate, data){
 
 export default function Menu({ navigation: { navigate } }) {
   const [data, setData] = useState([]);
+  const isFocused = useIsFocused();
   useFocusEffect(
     React.useCallback(() => {
       let isMounted = true; 
+      setData([])
       axios.get(api + "recipes").then(response => {
         console.log('res', response.data)
         setData(response.data)
@@ -42,7 +46,7 @@ export default function Menu({ navigation: { navigate } }) {
       return () => {
         isMounted = false
       };
-    }, [])
+    }, [isFocused])
   );
   return (
     <ScrollView contentContainerStyle={ustyles.scrollcontainer} style = {ustyles.container}>
@@ -63,7 +67,7 @@ export default function Menu({ navigation: { navigate } }) {
         </View>)}
         <GeneralButton text = "Add" 
           onPress = {() => {
-            navigate('Add')
+            navigate('Add', { update: setData()})
           }}
           height = {35} 
           width = {150} 

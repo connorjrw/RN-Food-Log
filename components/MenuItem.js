@@ -49,7 +49,7 @@ export default function MenuItem(props) {
       let isActive = true;
       let isMounted = true;
       setId(props.route.params.data.id)
-
+      setPhoto('')
       axios.get(api + "getrecipe", {
         params: {
           id: props.route.params.data.id
@@ -65,7 +65,7 @@ export default function MenuItem(props) {
         isMounted = false
         isActive = false
       };
-    }, [photo])
+    }, [])
   );
   return (
     <View style={styles.container}>

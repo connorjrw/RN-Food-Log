@@ -130,7 +130,10 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
               console.log('result', result.insertedId)
               var oldPath = req.body.photoLocation.substr(7)
               var newPath = './Images/' + req.body.id + '.png'
-              fs.unlinkSync(newPath)
+              fs.unlink(newPath, err => {
+                console.log('error', err)
+              })
+              console.log(oldPath, newPath)
               fs.rename(oldPath, newPath, (err) => {
                 console.log('do nothing with error')
               })
