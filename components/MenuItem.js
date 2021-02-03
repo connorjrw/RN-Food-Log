@@ -3,14 +3,11 @@ import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import config from '../config.js'
+import utils from '../utils.js'
 
 const api = config.api
 const axios = require('axios');
 
-var fileUrl = require('file-url');
-process.cwd = function () {
-  return '/';
-}
 
 function removeFood(navigation, id) {
   navigation.navigate('Home')
@@ -21,10 +18,6 @@ function removeFood(navigation, id) {
   }).catch(err => {
     console.log(err)
   })
-}
-
-function getUrl(url) {
-  return fileUrl('/Users/con/Desktop/React/FoodBus/Images/' + url.toString() + '.png')
 }
 
 function editPress(navigation, name, description, photo, recipe, id) {
@@ -58,7 +51,7 @@ export default function MenuItem(props) {
         let result = response.data[0]
         setName(result.name)
         setDescription(result.description)
-        setPhoto(getUrl(result._id))
+        setPhoto(utils.getUrl(result._id))
         setRecipe(result.recipe)
       })
       return () => {

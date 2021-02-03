@@ -6,27 +6,24 @@ import ustyles from '../std-styles.js'
 import GeneralButton from './GeneralButton.js'
 import config from '../config.js'
 import { useIsFocused } from '@react-navigation/native';
-
+import utils from '../utils.js'
 
 const axios = require('axios');
 const api = config.api
 
-var fileUrl = require('file-url');  
-process.cwd = function () {
-  return '/';
-}
+//Keeping this here for now
+// process.cwd = function () {
+//   return '/';
+// }
 
-function getUrl(url){
-  return fileUrl('/Users/con/Desktop/React/FoodBus/Images/' + url.toString() + '.png')
-}
 function changepage(navigate, data){
   navigate('Food', {data:{
     name:data.name,
     description:data.description,
     id:data._id,
-    navigate:navigate,
+    navigate:navigate,  
     recipe:data.recipe,
-    photo:getUrl(data._id)
+    photo:utils.getUrl(data._id)
   }})
 }
 
@@ -59,7 +56,7 @@ export default function Menu({ navigation: { navigate } }) {
           </View>
           <View style = {FLStyles.photo}>
           <Image
-            source={{url: getUrl(data._id)}}
+            source={{url: utils.getUrl(data._id)}}
             style={FLStyles.imageStyle}
           />
           </View>

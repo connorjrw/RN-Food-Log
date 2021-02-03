@@ -2,6 +2,7 @@
 
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import React, { useState } from 'react';
+import utils from '../utils.js'
 var fileUrl = require('file-url');
 
 
@@ -26,20 +27,14 @@ export default function MenuItemButton(props) {
       </View>
       <View style={styles.photo}>
         <Image
-          source={{ url: getUrl(props.fooddata._id) }}
+          source={{ url: utils.getUrl(props.fooddata._id) }}
           style={styles.imageStyle}
         />
       </View>
     </TouchableOpacity>
   )
 }
-function getUrl(url) {
-  if (url) {
-    return fileUrl('/Users/con/Desktop/React/FoodBus/Images/' + url.toString() + '.png')
-  } else {
-    return ''
-  }
-}
+
 
 const styles = StyleSheet.create({
   item: {

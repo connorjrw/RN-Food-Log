@@ -1,3 +1,5 @@
+import config from './config.js'
+
 const formatDate = (date) => {
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     var ddate = date.getDate();
@@ -18,6 +20,14 @@ const previousDate = (selectedDate) => {
     console.log('date is ', formatDate(datevar))
     return formatDate(datevar)
 }
+
+const getUrl = (url) => {
+    var fileUrl = require('file-url');  
+    const imageLocation = config.imageLocation
+    return fileUrl(imageLocation + url.toString() + '.png')
+  }
+
+exports.getUrl = getUrl  
 exports.formatDate = formatDate
 exports.nextDate = nextDate
 exports.previousDate = previousDate

@@ -51,6 +51,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
                     await new Promise(resolve => {
                         db.collection('recipes').find({"_id":new mongodb.ObjectId(results[i].food_id)}).toArray()
                             .then(rec_result => {
+                            if(rec_result[0]){
                             var currentResult = {
                               "_id": results[i]._id,
                               "recipe_id":rec_result[0]._id,
@@ -66,9 +67,11 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
                             }
                             new_result[results[i].type].push(currentResult)
                             final_result.push(currentResult)
+                          }else{
+                            console.log('Menu item Deleted!')
+                          }
                             if(i == results.length - 1){
                               let ordered_result = {}
-                              console.log(new_result,'new')
                               if(new_result['Breakfast']){
                                 ordered_result['Breakfast'] = new_result['Breakfast']
                               }
@@ -81,6 +84,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
                             
                               res.send(ordered_result)
                             }
+                          
                             resolve()
                           }).catch(err => {
                             console.log(err)

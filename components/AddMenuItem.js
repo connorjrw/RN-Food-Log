@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import ImagePicker from './ImagePicker.js'
 import config from '../config.js'
 
-
 const axios = require('axios');
 const api = config.api
 

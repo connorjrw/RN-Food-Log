@@ -10,10 +10,7 @@ import config from '../config.js'
 const api = config.api
 const axios = require('axios');
 
-var fileUrl = require('file-url');
-function getUrl(url) {
-  return fileUrl('/Users/con/Desktop/React/FoodBus/Images/' + url.toString() + '.png')
-}
+
 
 function changePage(navigate, selectedDate) {
   navigate('Add Entry', { date: selectedDate, navigate: navigate })
@@ -74,7 +71,7 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
               <View key={i} style={[styles.foodwrap, (i == values.length - 1) ? styles.curved : styles.foodwrap]}>
                 <Text style={styles.foodname}>{value.name}</Text>
                 <Image
-                  source={{ url: getUrl(value.recipe_id) }}
+                  source={{ url: utils.getUrl(value.recipe_id) }}
                   style={[styles.imageStyle, (i == values.length - 1) ? styles.imageCurved : styles.imageStyle]}
                 />
               </View>
