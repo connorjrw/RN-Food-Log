@@ -1,12 +1,13 @@
+// import config from './config.js'
+const config = require('./config.js')
+
 const express = require('express');
 const app = express();
-const connectionString = 'mongodb://localhost:27017/'
+const connectionString = config.connectionString
 
 var cors = require('cors')
 app.use(cors())
 
-const multer = require('multer');
-const path = require('path');
 app.use(express.static(__dirname));
 var fs = require('fs')
 
