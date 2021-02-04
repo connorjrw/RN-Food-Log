@@ -24,7 +24,7 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
 
   useFocusEffect(
     React.useCallback(() => {
-
+      console.log('hello')
       let isMounted = true;
       if (route.params) {
         setId(route.params.id)
@@ -38,7 +38,7 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
     }, [])
   );
   function AddPress() {
-    console.log('the', photo)
+    console.log('the', photo.uri)
     axios.post(api + 'addrecipe', {
       name: name,
       description: description,

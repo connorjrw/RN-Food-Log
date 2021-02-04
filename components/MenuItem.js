@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import config from '../config.js'
 import utils from '../utils.js'
 
@@ -62,14 +63,22 @@ export default function MenuItem(props) {
   );
   return (
     <View style={styles.container}>
+      <ScrollView style = {styles.scrollwrap}>
       <View style={styles.foodwrap}>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.description}>{description}</Text>
-        <Text style={styles.recipe}>{recipe}</Text>
+        {/* <Text style={styles.description}>{description}</Text> */}
+        <View style = {styles.imagewrap}>
         <Image
           source={{ url: photo }}
           style={styles.imageStyle}
         />
+        </View>
+        <View style = {styles.recipewrap}>
+          <Text style={styles.recipe}>{recipe}</Text>
+        </View>
+
+
+
       </View>
       <View style={styles.buttonwrap}>
         <TouchableOpacity
@@ -85,15 +94,52 @@ export default function MenuItem(props) {
           <Text style={styles.buttontextdelete}>Delete</Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  recipe:{
+    fontSize:20,
+    marginTop:20, 
+    marginLeft:20
+  },
+  recipename:{
+    fontSize:20,
+    color:'#1e90ff',
+    backgroundColor:'#293236',
+  },
+  recipewrap:{
+    backgroundColor:'white',
+    // marginHorizontal:20,
+    marginTop:2,
+    marginHorizontal:2,
+    marginBottom:2
+  },
+  scrollwrap:{
+    // flex:1, 
+    // alignItems:'stretch'
+    // height:500
+    // justifyContent:'space-between'
+  },
   name: {
-    fontSize: 40,
-    marginLeft: 10,
-    marginTop: 10
+    color:'#1e90ff',
+    // backgroundColor:'#293236',
+    paddingLeft:10,
+    paddingTop:5,
+    paddingBottom:5,
+    borderRadius:5,
+    // borderWidth:0.5,
+    // borderRadius:5,
+    // borderTopLeftRadius:5,
+    // borderTopLeftRadius:5,
+    // borderTopRightRadius:5,
+    fontSize: 30,
+    // marginLeft: 10,
+    // marginRight:10,
+    // marginTop: 10
   },
   description: {
     fontSize: 20,
@@ -101,22 +147,31 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    alignItems:'stretch',
     backgroundColor: 'white'
   },
   foodwrap: {
-    borderRadius: 5,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 20,
-    borderWidth: 0.5,
-    paddingLeft: 10
+    marginTop:20,
+    marginHorizontal:18,
+    backgroundColor:'#293236',
+    borderWidth:0.5,
+    borderRadius:5
+    // borderRadius: 5,
+    // marginLeft: 5,
+    // marginRight: 5,
+    // marginTop: 10,
+    // borderWidth: 0.5,
+    // paddingLeft: 10
   },
   imageStyle: {
-    marginTop: 25,
-    marginBottom: 25,
+    // marginBottom: 25,
+    borderWidth:0.5,
     alignSelf: 'center',
-    width: 300,
+    width: 350,
     height: 300,
+  },
+  imagewrap:{
+    borderTopWidth:0.5
   },
   button: {
     alignItems: 'center',
@@ -145,7 +200,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff1e20'
   },
   buttonwrap: {
-    marginHorizontal: 10,
+    marginHorizontal: 20,
+    marginBottom:50,
     alignItems: 'stretch',
     justifyContent: 'flex-start',
     flexDirection: 'column',

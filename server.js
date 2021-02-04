@@ -1,4 +1,3 @@
-// import config from './config.js'
 const config = require('./config.js')
 
 const express = require('express');
@@ -115,15 +114,18 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
     })
     app.post('/addrecipe', (req, res) => {
-        if(req.body.id == ''){
+      console.log('req', req.body)
+        if(!req.body.id){
         db.collection('recipes').insertOne(req.body)
           .then(result => {
             if(req.body.photoLocation){ //only if photo has been chosen
             var oldPath = req.body.photoLocation.substr(7)
             var newPath = './Images/' + result.insertedId + '.png'
             fs.rename(oldPath, newPath, (err) => {
+              console.log('error', err)
             })
-          }
+          } 
+          console.log('result', result.ops[0])
             res.send(result.ops[0])
           })
           .catch(error => console.error(error))

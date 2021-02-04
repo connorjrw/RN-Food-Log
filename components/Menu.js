@@ -43,7 +43,7 @@ export default function Menu({ navigation: { navigate } }) {
       return () => {
         isMounted = false
       };
-    }, [isFocused])
+    }, [])
   );
   return (
     <ScrollView contentContainerStyle={ustyles.scrollcontainer} style = {ustyles.container}>
@@ -64,7 +64,8 @@ export default function Menu({ navigation: { navigate } }) {
         </View>)}
         <GeneralButton text = "Add" 
           onPress = {() => {
-            navigate('Add', { update: setData()})
+            console.log('adding,', setData)
+            navigate('Add', { update: setData})
           }}
           height = {35} 
           width = {150} 
