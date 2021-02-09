@@ -5,6 +5,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ScrollView } from 'react-native-gesture-handler';
 import config from '../config.js'
 import utils from '../utils.js'
+var RNFS = require('react-native-fs');
+
 
 const api = config.api
 const axios = require('axios');
@@ -43,18 +45,27 @@ export default function MenuItem(props) {
       let isActive = true;
       let isMounted = true;
       setId(props.route.params.data.id)
-      setPhoto('')
-      axios.get(api + "getrecipe", {
+      setPhoto(utils.getUrl('none'))
+      async function getRecipe(){
+        let result = await axios.get(api + "getrecipe", {
         params: {
           id: props.route.params.data.id
         }
-      }).then(response => {
-        let result = response.data[0]
-        setName(result.name)
-        setDescription(result.description)
-        setPhoto(utils.getUrl(result._id))
-        setRecipe(result.recipe)
       })
+      result = result.data[0]
+      async function setThePhoto(){
+        if(await RNFS.exists(utils.getUrl(result._id))){
+          setPhoto(utils.getUrl(result._id))
+        }
+      }
+      setThePhoto()
+      setName(result.name)
+      setDescription(result.description)
+      // setPhoto(utils.getUrl(result._id))
+      setRecipe(result.recipe)
+        // console.log('photo', utils.getUrl(result._id))
+      }
+      getRecipe()
       return () => {
         isMounted = false
         isActive = false
@@ -104,7 +115,8 @@ const styles = StyleSheet.create({
   recipe:{
     fontSize:20,
     marginTop:20, 
-    marginLeft:20
+    marginLeft:20,
+    marginBottom:5
   },
   recipename:{
     fontSize:20,
@@ -167,17 +179,18 @@ const styles = StyleSheet.create({
     // marginBottom: 25,
     borderWidth:0.5,
     alignSelf: 'center',
-    width: 350,
+    width: 375,
     height: 300,
   },
   imagewrap:{
     borderTopWidth:0.5
   },
   button: {
+    width:170,
     alignItems: 'center',
-    alignSelf: 'center',
+    // alignSelf: 'center',
     marginTop: 20,
-    alignSelf: 'stretch',
+    // alignSelf: 'stretch',
     borderRadius: 5,
     backgroundColor: '#293236',
     paddingVertical: 10
@@ -187,24 +200,30 @@ const styles = StyleSheet.create({
     color: '#1e90ff',
   },
   buttontextdelete: {
+    // paddingVertical: 10,
+    alignItems: 'center',
+    // width:150,
     color: 'black',
     fontSize: 20,
   },
   buttondelete: {
+    width:170,
     alignSelf: 'center',
     alignItems: 'center',
     alignSelf: 'stretch',
-    marginTop: 5,
+    marginTop: 20,
+    marginLeft:8,
     borderRadius: 5,
     paddingVertical: 10,
     backgroundColor: '#ff1e20'
   },
   buttonwrap: {
+    // width:200,
     marginHorizontal: 20,
     marginBottom:50,
-    alignItems: 'stretch',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
-    flex: 1
+    // alignItems: 'stretch',
+    // justifyContent: 'flex-start',
+    flexDirection: 'row',
+    // flex: 1
   }
 });

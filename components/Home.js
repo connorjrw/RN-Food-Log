@@ -15,6 +15,9 @@ const axios = require('axios');
 function changePage(navigate, selectedDate) {
   navigate('Add Entry', { date: selectedDate, navigate: navigate })
 }
+function viewEntryItem(navigate, item){
+  navigate('View Entry', {item:item})
+}
 
 export default function Home({ navigation: { navigate, goBack } }, props) {
   var today = new Date()
@@ -68,13 +71,14 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
             </View>
 
             {values.map((value, i) =>
-              <View key={i} style={[styles.foodwrap, (i == values.length - 1) ? styles.curved : styles.foodwrap]}>
+              <TouchableOpacity onPress = { () => {viewEntryItem(navigate, value)}} key={i} style={[styles.foodwrap, (i == values.length - 1) ? styles.curved : styles.foodwrap]}>
                 <Text style={styles.foodname}>{value.name}</Text>
+
                 <Image
                   source={{ url: utils.getUrl(value.recipe_id) }}
                   style={[styles.imageStyle, (i == values.length - 1) ? styles.imageCurved : styles.imageStyle]}
                 />
-              </View>
+              </TouchableOpacity>
             )}
 
           </View>)}

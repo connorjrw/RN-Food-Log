@@ -198,6 +198,7 @@ const styles = StyleSheet.create({
     height: 200,
   },
   recipeinput: {
+    marginLeft:10,
     height: 200,
     fontSize: 20
   }

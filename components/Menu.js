@@ -7,6 +7,8 @@ import GeneralButton from './GeneralButton.js'
 import config from '../config.js'
 import { useIsFocused } from '@react-navigation/native';
 import utils from '../utils.js'
+var RNFS = require('react-native-fs');
+
 
 const axios = require('axios');
 const api = config.api
@@ -15,6 +17,10 @@ const api = config.api
 // process.cwd = function () {
 //   return '/';
 // }
+
+async function getPhoto(id){
+  return utils.getUrl(id)
+}
 
 function changepage(navigate, data){
   navigate('Food', {data:{
@@ -29,17 +35,16 @@ function changepage(navigate, data){
 
 export default function Menu({ navigation: { navigate } }) {
   const [data, setData] = useState([]);
-  const isFocused = useIsFocused();
+  const [photo, setPhoto] = useState('')
   useFocusEffect(
     React.useCallback(() => {
       let isMounted = true; 
       setData([])
-      axios.get(api + "recipes").then(response => {
-        console.log('res', response.data)
+      async function getData(){
+        let response =  await axios.get(api + "recipes")
         setData(response.data)
-      }).catch(err => {
-        console.log(err)
-      })
+      }
+      getData()
       return () => {
         isMounted = false
       };

@@ -14,7 +14,7 @@ export default function MenuNavigation() {
                 component={Menu}
                 options={
                     {
-                        title: 'Food',
+                        title: 'Menu',
                         headerStyle: {
                             borderWidth: 0.5,
                             backgroundColor: 'white',

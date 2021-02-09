@@ -1,5 +1,6 @@
 import config from './config.js'
 
+
 const formatDate = (date) => {
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     var ddate = date.getDate();
@@ -23,9 +24,15 @@ const previousDate = (selectedDate) => {
 
 const getUrl = (url) => {
     var fileUrl = require('file-url');  
+
     const imageLocation = config.imageLocation
+    // var path = imageLocation + url.toString() + '.png'
+    // if(await RNFS.exists('asd')){
+    //     console.log('exists!')
+    // }
     return fileUrl(imageLocation + url.toString() + '.png')
   }
+
 
 exports.getUrl = getUrl  
 exports.formatDate = formatDate

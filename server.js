@@ -98,6 +98,14 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         console.log(err)
       })
       })
+    app.post('/removeentryitem', (req,res) => {
+        var query = {"_id":new mongodb.ObjectId(req.body.id)}
+        console.log(query)
+        db.collection('foodlog').deleteOne(query, () => {
+            console.log('delete okay')
+            res.send()
+        })
+      })
     app.post('/removefood', (req,res) => {
       var query = {"_id":new mongodb.ObjectId(req.body.id)}
       console.log(query)
