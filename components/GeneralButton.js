@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function GeneralButton(props) {
     return (
-        <TouchableOpacity style={[{ height: props.height, width: props.width, paddingTop: props.paddingTop }, styles.GeneralButton, props.buttonstyle]} onPress={props.onPress}>
+        <TouchableOpacity style={[{ height: props.height, width: props.width, paddingTop: props.paddingTop}, styles.GeneralButton, props.buttonstyle]} onPress={props.onPress}>
             <Text style={
                 [styles.GeneralButtonText, props.textstyle]
             }>{props.text}</Text>

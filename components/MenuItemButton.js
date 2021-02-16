@@ -3,6 +3,7 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import React, { useState } from 'react';
 import utils from '../utils.js'
+import FoodImage from './FoodImage.js';
 var fileUrl = require('file-url');
 
 
@@ -26,16 +27,13 @@ export default function MenuItemButton(props) {
         </Text>
       </View>
       <View style={styles.photo}>
-        <Image
+        <FoodImage
           source={{ url: utils.getUrl(props.fooddata._id) }}
-          style={styles.imageStyle}
         />
       </View>
     </TouchableOpacity>
   )
 }
-
-
 const styles = StyleSheet.create({
   item: {
     marginLeft: 20,
@@ -46,13 +44,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginTop: 10,
     fontSize: 10
-  },
-  imageStyle: {
-    alignSelf: 'flex-start',
-    borderRadius: 10,
-    paddingRight: 2,
-    width: 99,
-    height: 99,
   },
   itemcontainer: {
     flexDirection: 'row',

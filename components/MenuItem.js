@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ScrollView } from 'react-native-gesture-handler';
 import config from '../config.js'
 import utils from '../utils.js'
+import DeleteButton from './DeleteButton.js'
 var RNFS = require('react-native-fs');
 
 
@@ -87,9 +88,6 @@ export default function MenuItem(props) {
         <View style = {styles.recipewrap}>
           <Text style={styles.recipe}>{recipe}</Text>
         </View>
-
-
-
       </View>
       <View style={styles.buttonwrap}>
         <TouchableOpacity
@@ -98,12 +96,10 @@ export default function MenuItem(props) {
         >
           <Text style={styles.buttontext}>Edit</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttondelete}
-          onPress={() => { removeFood(props.navigation, id) }}
+        <DeleteButton 
+        onPress={() => { removeFood(props.navigation, id) }}
         >
-          <Text style={styles.buttontextdelete}>Delete</Text>
-        </TouchableOpacity>
+        </DeleteButton>
       </View>
       </ScrollView>
 
@@ -125,33 +121,17 @@ const styles = StyleSheet.create({
   },
   recipewrap:{
     backgroundColor:'white',
-    // marginHorizontal:20,
     marginTop:2,
     marginHorizontal:2,
     marginBottom:2
   },
-  scrollwrap:{
-    // flex:1, 
-    // alignItems:'stretch'
-    // height:500
-    // justifyContent:'space-between'
-  },
   name: {
     color:'#1e90ff',
-    // backgroundColor:'#293236',
     paddingLeft:10,
     paddingTop:5,
     paddingBottom:5,
     borderRadius:5,
-    // borderWidth:0.5,
-    // borderRadius:5,
-    // borderTopLeftRadius:5,
-    // borderTopLeftRadius:5,
-    // borderTopRightRadius:5,
     fontSize: 30,
-    // marginLeft: 10,
-    // marginRight:10,
-    // marginTop: 10
   },
   description: {
     fontSize: 20,
@@ -168,15 +148,8 @@ const styles = StyleSheet.create({
     backgroundColor:'#293236',
     borderWidth:0.5,
     borderRadius:5
-    // borderRadius: 5,
-    // marginLeft: 5,
-    // marginRight: 5,
-    // marginTop: 10,
-    // borderWidth: 0.5,
-    // paddingLeft: 10
   },
   imageStyle: {
-    // marginBottom: 25,
     borderWidth:0.5,
     alignSelf: 'center',
     width: 375,
@@ -188,9 +161,7 @@ const styles = StyleSheet.create({
   button: {
     width:170,
     alignItems: 'center',
-    // alignSelf: 'center',
     marginTop: 20,
-    // alignSelf: 'stretch',
     borderRadius: 5,
     backgroundColor: '#293236',
     paddingVertical: 10
@@ -199,31 +170,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#1e90ff',
   },
-  buttontextdelete: {
-    // paddingVertical: 10,
-    alignItems: 'center',
-    // width:150,
-    color: 'black',
-    fontSize: 20,
-  },
-  buttondelete: {
-    width:170,
-    alignSelf: 'center',
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    marginTop: 20,
-    marginLeft:8,
-    borderRadius: 5,
-    paddingVertical: 10,
-    backgroundColor: '#ff1e20'
-  },
   buttonwrap: {
-    // width:200,
     marginHorizontal: 20,
     marginBottom:50,
-    // alignItems: 'stretch',
-    // justifyContent: 'flex-start',
     flexDirection: 'row',
-    // flex: 1
   }
 });

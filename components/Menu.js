@@ -7,6 +7,7 @@ import GeneralButton from './GeneralButton.js'
 import config from '../config.js'
 import { useIsFocused } from '@react-navigation/native';
 import utils from '../utils.js'
+import FoodImage from './FoodImage.js';
 var RNFS = require('react-native-fs');
 
 
@@ -60,9 +61,8 @@ export default function Menu({ navigation: { navigate } }) {
             <Text style={FLStyles.description}>{data.description}</Text>
           </View>
           <View style = {FLStyles.photo}>
-          <Image
+          <FoodImage
             source={{url: utils.getUrl(data._id)}}
-            style={FLStyles.imageStyle}
           />
           </View>
           </TouchableOpacity>
@@ -91,13 +91,6 @@ const FLStyles = StyleSheet.create({
       marginLeft:20,
       marginTop:10,
       fontSize: 10
-    },
-    imageStyle: {
-      alignSelf:'flex-start',
-      borderRadius:10,
-      paddingRight:2,
-      width: 99,
-      height: 99,
     },
     itemcontainer:{
       flexDirection: 'row',
