@@ -181,8 +181,6 @@ const styles = StyleSheet.create({
     color: '#1e90ff',
   },
   recipecontainer: {
-    // alignItems:'stretch',
-    // flexDirection:'row',
     height: 300,
     marginLeft: 5,
     marginRight: 5,

@@ -9,6 +9,92 @@ import config from '../config.js'
 const axios = require('axios');
 const api = config.api
 
+export default function AddEntry(props) {
+  const [data, setData] = useState([]);
+  const [selectedItem, setSelectedItem] = useState([]);
+  const [selectedType, setSelectedType] = useState('Breakfast')
+
+  const selectedDate = props.route.params.date
+  const navigate = props.route.params.navigate
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let isMounted = true;
+      axios.get(api + "recipes").then(response => {
+        for (var item in response.data) {
+          if (selectedItem['_id'] == response.data[item]['_id']) {
+            response.data[item]['selected'] = 'True'
+          } else {
+            response.data[item]['selected'] = 'False'
+          }
+        }
+        setData(response.data)
+      }).catch(err => {
+        console.log(err)
+      })
+      return () => {
+        isMounted = false
+      };
+    }, [selectedItem])
+  );
+  return (
+    <View style={styles.container}>
+      <View style={styles.headerView}>
+        <Text style={styles.dateText}>{selectedDate}</Text>
+        <View style={styles.selectedTypeView}>
+          <GeneralButton text='Breakfast'
+            onPress={() => { setSelectedType('Breakfast') }}
+            buttonstyle={[styles.entryTypeButton, selectedType == 'Breakfast' ? styles.entryTypeButtonSelected : styles.entryTypeButton]}
+            textstyle={styles.entryTypeText}>
+          </GeneralButton>
+          <GeneralButton text='Lunch'
+            onPress={() => { setSelectedType('Lunch') }}
+            buttonstyle={[styles.entryTypeButton, selectedType == 'Lunch' ? styles.entryTypeButtonSelected : styles.entryTypeButton]}
+            textstyle={styles.entryTypeText}>
+          </GeneralButton>
+          <GeneralButton text='Dinner'
+            onPress={() => { setSelectedType('Dinner') }}
+            buttonstyle={[styles.entryTypeButton, selectedType == 'Dinner' ? styles.entryTypeButtonSelected : styles.entryTypeButton]}
+            textstyle={styles.entryTypeText}>
+          </GeneralButton>
+        </View>
+      </View>
+      <View style={styles.menuItemOption}>
+        <ScrollView>
+          {data.map(dataitem =>
+            <View key={dataitem._id}>
+              <MenuItemButton fooddata={dataitem} onPress={() => {
+                const updatedData = JSON.parse(JSON.stringify(select(dataitem, data)));
+                setData(updatedData)
+                setSelectedItem(dataitem)
+              }}>
+              </MenuItemButton>
+            </View>)}
+        </ScrollView>
+      </View>
+      <View style={styles.optionView}>
+        <View style={styles.optionButtonView}>
+          <GeneralButton text='Add'
+            onPress={() => { addEntry(selectedItem, selectedType, selectedDate, navigate) }}
+            buttonstyle={styles.optionButton}></GeneralButton>
+        </View>
+        <View style={styles.optionButtonView}>
+          <GeneralButton text='New'
+            onPress={() => {
+              addNew(
+                navigate,
+                selectedItemSet => setSelectedItem(selectedItemSet),
+                dataSet => setData(dataSet),
+                data)
+            }
+            }
+            buttonstyle={styles.optionButton}></GeneralButton>
+        </View>
+      </View>
+    </View>
+  );
+}
+
 function select(dataitem, data) {
   for (var item in data) {
     if (data[item]._id == dataitem._id) {
@@ -39,105 +125,27 @@ function addNew(navigate, selectedItemSet, dataSet, data) {
   })
 }
 
-export default function AddEntry(props) {
-  const [data, setData] = useState([]);
-  const [selectedItem, setSelectedItem] = useState([]);
-  const [selectedType, setSelectedType] = useState('Breakfast')
-  const selectedDate = props.route.params.date
-  const navigate = props.route.params.navigate
-  useFocusEffect(
-    React.useCallback(() => {
-      let isMounted = true;
-      axios.get(api + "recipes").then(response => {
-        for (var item in response.data) {
-          if (selectedItem['_id'] == response.data[item]['_id']) {
-            response.data[item]['selected'] = 'True'
-          } else {
-            response.data[item]['selected'] = 'False'
-          }
-        }
-        setData(response.data)
-      }).catch(err => {
-        console.log(err)
-      })
-      return () => {
-        isMounted = false
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, [selectedItem])
-  );
-  return (
-    <View style={styles.container}>
-      <View style={styles.buttonwrap}>
-        <Text style={styles.date}>{selectedDate}</Text>
-        <View style={styles.button2}>
-          <GeneralButton text='Breakfast'
-            onPress={() => { setSelectedType('Breakfast') }}
-            buttonstyle={[styles.menuitem, selectedType == 'Breakfast' ? styles.menuitemselected : styles.menuitem]}
-            textstyle={styles.menuitemtext}>
-          </GeneralButton>
-          <GeneralButton text='Lunch'
-            onPress={() => { setSelectedType('Lunch') }}
-            buttonstyle={[styles.menuitem, selectedType == 'Lunch' ? styles.menuitemselected : styles.menuitem]}
-            textstyle={styles.menuitemtext}>
-          </GeneralButton>
-          <GeneralButton text='Dinner'
-            onPress={() => { setSelectedType('Dinner') }}
-            buttonstyle={[styles.menuitem, selectedType == 'Dinner' ? styles.menuitemselected : styles.menuitem]}
-            textstyle={styles.menuitemtext}>
-          </GeneralButton>
-        </View>
-      </View>
-      <View style={styles.foodoption}>
-        <ScrollView>
-          {data.map(dataitem =>
-            <View key={dataitem._id}>
-              <MenuItemButton fooddata={dataitem} onPress={() => {
-                const updatedData = JSON.parse(JSON.stringify(select(dataitem, data)));
-                setData(updatedData)
-                setSelectedItem(dataitem)
-              }}>
-              </MenuItemButton>
-            </View>)}
-        </ScrollView>
-      </View>
-      <View style={styles.addwrap}>
-        <View style={styles.submit}>
-          <GeneralButton text='Add'
-            onPress={() => { addEntry(selectedItem, selectedType, selectedDate, navigate) }}
-            buttonstyle={styles.addbutton}></GeneralButton>
-        </View>
-        <View style={styles.submit}>
-          <GeneralButton text='New'
-            onPress={() => {
-              addNew(
-                navigate,
-                selectedItemSet => setSelectedItem(selectedItemSet),
-                dataSet => setData(dataSet),
-                data)
-            }
-            }
-            buttonstyle={styles.addbutton}></GeneralButton>
-        </View>
-      </View>
-
-
-    </View>
-  );
-}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white'
   },
-  date: {
+  headerView: {
+    height: 80,
+  },
+  selectedTypeView: {
+    flex: 1,
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    justifyContent: 'space-between',
+  },
+  dateText: {
     alignSelf: 'center',
     marginTop: 15,
     fontSize: 27
   },
-  menuitem: {
+  entryTypeButton: {
     alignItems: 'center',
     marginTop: 50,
     height: 40,
@@ -145,38 +153,30 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: 0.5
   },
-  menuitemselected: {
+  entryTypeButtonSelected: {
     backgroundColor: '#293236'
   },
-  foodoption: {
+  menuItemOption: {
     height: 500,
     marginTop: 40,
     marginHorizontal: 5,
     borderRadius: 10
   },
-  menuitemtext: {
+  entryTypeText: {
     marginTop: 10,
     fontSize: 15,
   },
-  buttonwrap: {
-    height: 80,
-  },
-  addwrap: {
+  optionView: {
     flex: 1,
     flexDirection: 'row',
     alignSelf: 'center'
   },
-  button2: {
-    flex: 1,
-    flexDirection: 'row',
-    marginHorizontal: 20,
-    justifyContent: 'space-between',
-  },
-  submit: {
+  
+  optionButtonView: {
     alignItems: 'center',
     marginHorizontal: 10,
   },
-  addbutton: {
+  optionButton: {
     alignSelf: 'auto',
     paddingTop: 8,
     height: 40
