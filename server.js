@@ -22,7 +22,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     console.log('Connected to Database')
 
     app.get('/recipes', (req, res) =>{
-        console.log('asd')
         db.collection('recipes').find().toArray()
         .then(results => {
             var reversed_results = results.reverse()
@@ -30,7 +29,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
     })
     app.get('/getrecipe/', (req,res) => {
-      console.log(req.query)
       db.collection('recipes').find({"_id":new mongodb.ObjectId(req.query.id)}).toArray()
         .then(results => {
           res.send(results)
@@ -100,15 +98,12 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       })
     app.post('/removeentryitem', (req,res) => {
         var query = {"_id":new mongodb.ObjectId(req.body.id)}
-        console.log(query)
         db.collection('foodlog').deleteOne(query, () => {
-            console.log('delete okay')
             res.send()
         })
       })
     app.post('/removefood', (req,res) => {
       var query = {"_id":new mongodb.ObjectId(req.body.id)}
-      console.log(query)
       db.collection('recipes').deleteOne(query, () => {
           res.send()
       }).catch(err => {
@@ -122,7 +117,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
     })
     app.post('/addrecipe', (req, res) => {
-      console.log('req', req.body)
         if(!req.body.id){
         db.collection('recipes').insertOne(req.body)
           .then(result => {
@@ -133,7 +127,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
               console.log('error', err)
             })
           } 
-          console.log('result', result.ops[0])
             res.send(result.ops[0])
           })
           .catch(error => console.error(error))
@@ -142,7 +135,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
           var query = {"_id":new mongodb.ObjectId(req.body.id)}
           db.collection('recipes').updateOne(query, {$set:req.body}, {upsert:true}).then(result => {
             if(req.body.photoLocation){ //only if photo has been chosen
-              console.log('result', result.insertedId)
               var oldPath = req.body.photoLocation.substr(7)
               var newPath = './Images/' + req.body.id + '.png'
               fs.unlink(newPath, err => {

@@ -6,8 +6,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import config from '../config.js'
 import utils from '../utils.js'
 import DeleteButton from './DeleteButton.js'
-var RNFS = require('react-native-fs');
-
 
 const api = config.api
 const axios = require('axios');
@@ -46,25 +44,22 @@ export default function MenuItem(props) {
       let isActive = true;
       let isMounted = true;
       setId(props.route.params.data.id)
-      setPhoto(utils.getUrl('none'))
       async function getRecipe(){
         let result = await axios.get(api + "getrecipe", {
         params: {
           id: props.route.params.data.id
         }
       })
+      
       result = result.data[0]
-      async function setThePhoto(){
-        if(await RNFS.exists(utils.getUrl(result._id))){
-          setPhoto(utils.getUrl(result._id))
-        }
-      }
-      setThePhoto()
+      axios.get(utils.getUrl(result._id)).then(res => {
+        setPhoto(utils.getUrl(result._id))
+      }).catch(err => {
+        setPhoto(utils.getUrl('none')) //Show generic picture if cannot be found on file server
+      })
       setName(result.name)
       setDescription(result.description)
-      // setPhoto(utils.getUrl(result._id))
       setRecipe(result.recipe)
-        // console.log('photo', utils.getUrl(result._id))
       }
       getRecipe()
       return () => {

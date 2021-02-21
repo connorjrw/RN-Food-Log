@@ -8,16 +8,6 @@ import DeleteButton from './DeleteButton.js'
 const axios = require('axios');
 const api = config.api
 
-function deleteEntryItem(id, navigation) {
-    axios.post(api + 'removeentryitem', {
-        id: id,
-    }).then(res => {
-        navigation.navigate('Home')
-    }).catch(err => {
-        console.log(err)
-    })
-}
-
 export default function EntryItem(props) {
     const item = props.route.params.item
     return (
@@ -35,6 +25,18 @@ export default function EntryItem(props) {
     );
 }
 
+
+function deleteEntryItem(id, navigation) {
+    axios.post(api + 'removeentryitem', {
+        id: id,
+    }).then(res => {
+        navigation.navigate('Home')
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -51,10 +53,9 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         marginTop: 20,
         borderRadius: 10,
-        // height: 90
     },
     foodname: {
-        fontSize: 20,
+        fontSize: 30,
         marginTop: 5,
         marginLeft: 10
     },

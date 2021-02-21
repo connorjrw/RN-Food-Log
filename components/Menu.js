@@ -5,23 +5,11 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import ustyles from '../std-styles.js'
 import GeneralButton from './GeneralButton.js'
 import config from '../config.js'
-import { useIsFocused } from '@react-navigation/native';
 import utils from '../utils.js'
 import FoodImage from './FoodImage.js';
-var RNFS = require('react-native-fs');
-
 
 const axios = require('axios');
 const api = config.api
-
-//Keeping this here for now
-// process.cwd = function () {
-//   return '/';
-// }
-
-async function getPhoto(id){
-  return utils.getUrl(id)
-}
 
 function changepage(navigate, data){
   navigate('Food', {data:{

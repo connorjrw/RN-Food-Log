@@ -1,4 +1,6 @@
 import config from './config.js'
+const axios = require('axios');
+
 
 
 const formatDate = (date) => {
@@ -23,14 +25,8 @@ const previousDate = (selectedDate) => {
 }
 
 const getUrl = (url) => {
-    var fileUrl = require('file-url');  
-
-    const imageLocation = config.imageLocation
-    // var path = imageLocation + url.toString() + '.png'
-    // if(await RNFS.exists('asd')){
-    //     console.log('exists!')
-    // }
-    return fileUrl(imageLocation + url.toString() + '.png')
+    let image = config.imageLocation +  url.toString() + '.png'
+    return image
   }
 
 
