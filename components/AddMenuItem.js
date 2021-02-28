@@ -3,6 +3,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import ImagePicker from './ImagePicker.js'
 import config from '../config.js'
+import GeneralButton from './GeneralButton.js'
 
 const axios = require('axios');
 const api = config.api
@@ -38,7 +39,6 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
     }, [])
   );
   function AddPress() {
-    console.log('the', photo.uri)
     axios.post(api + 'addrecipe', {
       name: name,
       description: description,
@@ -65,9 +65,9 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputcontainer}>
-        <View style={styles.textwrap}>
-          <Text style={styles.inputtitle}>Name</Text>
+      <View style={styles.inputView}>
+        <View style={styles.inputTextView}>
+          <Text style={styles.inputTitleText}>Name</Text>
         </View>
         <TextInput
           multiline={true}
@@ -76,9 +76,9 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
           value={name}>
         </TextInput>
       </View>
-      <View style={styles.inputcontainer}>
-        <View style={styles.textwrap}>
-          <Text style={styles.inputtitle}>Description</Text>
+      <View style={styles.inputView}>
+        <View style={styles.inputTextView}>
+          <Text style={styles.inputTitleText}>Description</Text>
         </View>
         <TextInput
           multiline={true}
@@ -95,29 +95,29 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
         </ImagePicker>
       </View>
 
-      <View style={styles.recipecontainer}>
-        <View style={styles.recipetextwrap}>
-          <Text style={styles.inputtitle}>Recipe</Text>
+      <View style={styles.recipeView}>
+        <View style={styles.recipeTextView}>
+          <Text style={styles.inputTitleText}>Recipe</Text>
         </View>
-        <View style={styles.recipeinputwrap}>
-
+        <View style={styles.recipeInputView}>
           <TextInput
             multiline={true}
             numberOfLines={10}
-            style={styles.recipeinput}
+            style={styles.recipeInputText}
             onChangeText={recipe => recipeOnChange(recipe)}
-            value={recipe}
-          >
+            value={recipe}>
           </TextInput>
         </View>
-
       </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={AddPress}
-      >
-        <Text style={styles.buttontext}>Add</Text>
-      </TouchableOpacity>
+      <GeneralButton 
+          text = 'Add' 
+          onPress={AddPress} 
+          width = {200} 
+          height = {40} 
+          paddingTop = {10}
+          buttonstyle = {styles.addButton}
+          textstyle = {styles.buttonTextStyle}>
+      </GeneralButton>
     </View>
   )
 }
@@ -127,20 +127,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-
-  button: {
-    alignSelf: "center",
-    alignItems: 'center',
-    marginTop: 40,
-    marginLeft: 10,
-    marginRight: 20,
-    width: 200,
-    borderRadius: 5,
-    backgroundColor: '#293236',
-    paddingVertical: 10
-  },
-
-  inputcontainer: {
+  inputView: {
     alignItems: 'stretch',
     flexDirection: 'row',
     height: 60,
@@ -151,16 +138,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     borderRadius: 5,
   },
-  textwrap: {
+  inputTextView: {
     backgroundColor: '#293236',
     borderRadius: 5,
   },
-  recipetextwrap: {
+  addButton: {
+    marginTop: 40,
+  },
+  recipeTextView: {
     backgroundColor: '#293236',
     borderRadius: 5,
     height: 60
   },
-  inputtitle: {
+  inputTitleText: {
     paddingLeft: 5,
     fontSize: 20,
     paddingTop: 20,
@@ -176,11 +166,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     alignSelf: 'center'
   },
-  buttontext: {
+  buttonTextStyle: {
     fontSize: 20,
-    color: '#1e90ff',
+    fontWeight:"bold"
   },
-  recipecontainer: {
+  recipeView: {
     height: 300,
     marginLeft: 5,
     marginRight: 5,
@@ -189,14 +179,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     borderRadius: 5,
   },
-  recipeinputwrap: {
+  recipeInputView: {
     alignItems: 'stretch',
     flexDirection: 'column',
     flex: 1,
     height: 200,
   },
-  recipeinput: {
-    marginLeft:10,
+  recipeInputText: {
+    marginLeft: 10,
     height: 200,
     fontSize: 20
   }

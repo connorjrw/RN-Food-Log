@@ -1,12 +1,10 @@
 import { StyleSheet } from 'react-native';
-import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import React from 'react';
 
 const Triangle = (props) => {
     return <TouchableOpacity style={[styles.triangle, props.style]} onPress={props.onPress} />;
 };
-
 
 export default function DateNavigator(props) {
 
@@ -17,7 +15,6 @@ export default function DateNavigator(props) {
         return <Triangle style={styles.triangleRight} onPress={props.onPress}></Triangle>
     }
 };
-
 
 const styles = StyleSheet.create({
 

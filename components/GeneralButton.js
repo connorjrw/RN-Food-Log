@@ -11,14 +11,14 @@ export default function GeneralButton(props) {
     )
 }
 const styles = StyleSheet.create({
-    GeneralButton: {
+    generalButton: {
         alignSelf: 'center',
         alignItems: 'center',
         width: 150,
         borderRadius: 5,
         backgroundColor: '#293236',
     },
-    GeneralButtonText: {
+    generalButtonText: {
         fontSize: 20,
         color: '#1e90ff',
     },

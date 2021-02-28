@@ -12,19 +12,18 @@ export default function EntryItem(props) {
     const item = props.route.params.item
     return (
         <View style={styles.container}>
-            <View style={styles.foodwrap}>
-                <Text style={styles.foodname}>{item.name}</Text>
+            <View style={styles.foodView}>
+                <Text style={styles.foodNameText}>{item.name}</Text>
                 <FoodImage
                     source={{ url: utils.getUrl(item.recipe_id) }}
                 />
             </View>
-            <View style={styles.buttonwrap}>
+            <View style={styles.buttonView}>
                 <DeleteButton onPress = { () => {deleteEntryItem(item._id, props.navigation)}}></DeleteButton>
             </View>
         </View>
     );
 }
-
 
 function deleteEntryItem(id, navigation) {
     axios.post(api + 'removeentryitem', {
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start'
     },
-    foodwrap: {
+    foodView: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -54,12 +53,12 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderRadius: 10,
     },
-    foodname: {
+    foodNameText: {
         fontSize: 30,
         marginTop: 5,
         marginLeft: 10
     },
-    buttonwrap: {
+    buttonView: {
         marginBottom: 540,
         alignSelf: 'center'
     },

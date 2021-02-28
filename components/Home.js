@@ -6,18 +6,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
 import utils from '../utils.js'
 import config from '../config.js'
+import GeneralButton from './GeneralButton'
 
 const api = config.api
 const axios = require('axios');
-
-
-
-function changePage(navigate, selectedDate) {
-  navigate('Add Entry', { date: selectedDate, navigate: navigate })
-}
-function viewEntryItem(navigate, item){
-  navigate('View Entry', {item:item})
-}
 
 export default function Home({ navigation: { navigate, goBack } }, props) {
   var today = new Date()
@@ -42,7 +34,7 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
   );
   return (
     <ScrollView contentContainerStyle={ustyles.scrollcontainer} style={ustyles.container}>
-      <View style={styles.datewrap}>
+      <View style={styles.dateView}>
         <View>
           <DateNavigator
             direction='left'
@@ -53,7 +45,7 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
           </DateNavigator>
         </View>
         <View>
-          <Text style={styles.date}>{selectedDate}</Text></View>
+          <Text style={styles.dateText}>{selectedDate}</Text></View>
         <View>
           <DateNavigator
             direction='right'
@@ -63,16 +55,16 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
           </DateNavigator>
         </View>
       </View>
-      <View style={styles.contentwrap}>
+      <View style={styles.logListView}>
         {Object.entries(foodlog).map(([key, values]) =>
-          <View key={key} style={styles.fooditem}>
-            <View style={styles.typewrap}>
-              <Text style={styles.type}>{key}</Text>
+          <View key={key} style={styles.foodLogItemView}>
+            <View style={styles.typeView}>
+              <Text style={styles.typeText}>{key}</Text>
             </View>
 
             {values.map((value, i) =>
-              <TouchableOpacity onPress = { () => {viewEntryItem(navigate, value)}} key={i} style={[styles.foodwrap, (i == values.length - 1) ? styles.curved : styles.foodwrap]}>
-                <Text style={styles.foodname}>{value.name}</Text>
+              <TouchableOpacity onPress = { () => {viewEntryItem(navigate, value)}} key={i} style={[styles.foodView, (i == values.length - 1) ? styles.curved : styles.foodView]}>
+                <Text style={styles.foodNameText}>{value.name}</Text>
 
                 <Image
                   source={{ url: utils.getUrl(value.recipe_id) }}
@@ -84,36 +76,43 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
           </View>)}
       </View>
       <TouchableOpacity
-        style={styles.button}
+        style={styles.addFoodButton}
         onPress={() => { changePage(navigate, selectedDate) }}
       >
-        <Text style={styles.buttontext}>Add Food</Text>
+        <Text style={styles.foodButtonText}>Add Food</Text>
       </TouchableOpacity>
     </ScrollView>
   );
+}
+
+function changePage(navigate, selectedDate) {
+  navigate('Add Entry', { date: selectedDate, navigate: navigate })
+}
+function viewEntryItem(navigate, item){
+  navigate('View Entry', {item:item})
 }
 
 const styles = StyleSheet.create({
   header: {
     marginTop: 100,
   },
-  date: {
+  dateText: {
     alignSelf: 'center',
     marginTop: 10,
     fontSize: 27
   },
-  datewrap: {
+  dateView: {
     marginTop: 20,
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     flexDirection: 'row'
   },
-  contentwrap: {
+  logListView: {
     flex: 1,
     marginTop: 20,
   },
-  typewrap: {
+  typeView: {
     flex: 1,
     height: 50,
     alignSelf: 'stretch',
@@ -124,18 +123,18 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10
   },
-  type: {
+  typeText: {
     color: '#1e90ff',
     marginLeft: 10,
     fontWeight: 'bold',
     marginTop: 10,
     fontSize: 25
   },
-  fooditem: {
+  foodLogItemView: {
     flex: 1,
     alignItems: 'stretch'
   },
-  foodwrap: {
+  foodView: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -149,12 +148,12 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
-  foodname: {
+  foodNameText: {
     fontSize: 20,
     marginTop: 5,
     marginLeft: 10
   },
-  button: {
+  addFoodButton: {
     alignSelf: 'center',
     alignItems: 'center',
     marginTop: 40,
@@ -165,7 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#293236',
     paddingVertical: 10
   },
-  buttontext: {
+  foodButtonText: {
     fontSize: 20,
     color: '#1e90ff',
   },
@@ -173,7 +172,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
   },
   imageStyle: {
-    // borderRadius:10,
     paddingRight: 2,
     width: 99,
     height: 99,
