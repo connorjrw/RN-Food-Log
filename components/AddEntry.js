@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   optionButton: {
+    width:150,
     alignSelf: 'auto',
     paddingTop: 8,
     height: 40

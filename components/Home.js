@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { StyleSheet, View, ScrollView, Image, Alert, Modal, Text, Pressable} from 'react-native';
 import React, { useState } from 'react';
 import ustyles from '../std-styles.js';
 import DateNavigator from './DateNavigator'
@@ -7,6 +7,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import utils from '../utils.js'
 import config from '../config.js'
 import GeneralButton from './GeneralButton'
+import DatePicker from 'react-native-date-picker'
+import DeleteButton from './DeleteButton'
+
 
 const api = config.api
 const axios = require('axios');
@@ -14,6 +17,8 @@ const axios = require('axios');
 export default function Home({ navigation: { navigate, goBack } }, props) {
   var today = new Date()
   const [selectedDate, setDate] = useState(utils.formatDate(today));
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newDate, setNewDate] = useState(new Date())
   const [foodlog, setLog] = useState([]);
   useFocusEffect(
     React.useCallback(() => {
@@ -34,22 +39,25 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
   );
   return (
     <ScrollView contentContainerStyle={ustyles.scrollcontainer} style={ustyles.container}>
+      <View style = {styles.MainView}>
       <View style={styles.dateView}>
         <View>
           <DateNavigator
             direction='left'
             onPress={() => {
+              setNewDate(new Date(utils.previousDate(selectedDate)))
               setDate(utils.previousDate(selectedDate))
             }
             }>
           </DateNavigator>
         </View>
-        <View>
-          <Text style={styles.dateText}>{selectedDate}</Text></View>
+        <View > 
+          <Text onPress={() => setModalVisible(true)} style={styles.dateText}>{viewSelectedDate(selectedDate)}</Text></View>
         <View>
           <DateNavigator
             direction='right'
             onPress={() => {
+              setNewDate(new Date(utils.nextDate(selectedDate)))
               setDate(utils.nextDate(selectedDate))
             }}>
           </DateNavigator>
@@ -75,12 +83,52 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
 
           </View>)}
       </View>
+      </View>
+      <Modal
+        presentationStyle = "overFullScreen"
+        transparent={true}
+        visible={modalVisible}
+        animationType="slide"
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <DatePicker
+              mode = "date"
+              date={newDate}
+              onDateChange = {setNewDate}
+            />
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <View style = {styles.buttonview}>
+                  <GeneralButton onPress = {() => setModalVisible(!modalVisible)} buttonstyle = {styles.datebuttons} text = "Cancel" height = {30}></GeneralButton>
+                  <GeneralButton onPress = {() => {
+                    setDate(utils.formatDate(newDate)) 
+                    setModalVisible(!modalVisible)}} buttonstyle = {styles.datebuttons} text = "Okay" height = {30}></GeneralButton>
+              </View>
+
+              {/* <DeleteButton text = 'cancel'></DeleteButton> */}
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <TouchableOpacity
         style={styles.addFoodButton}
         onPress={() => { changePage(navigate, selectedDate) }}
       >
         <Text style={styles.foodButtonText}>Add Food</Text>
       </TouchableOpacity>
+      
+      <Pressable
+        style={[styles.button, styles.buttonOpen]}
+        
+      >
+      </Pressable>
     </ScrollView>
   );
 }
@@ -91,11 +139,27 @@ function changePage(navigate, selectedDate) {
 function viewEntryItem(navigate, item){
   navigate('View Entry', {item:item})
 }
+function viewSelectedDate(date){
+  var today = utils.formatDate(new Date())
+  if(today == date){
+    return 'Today'
+  } 
+  else if (utils.nextDate(today) == date){
+    return 'Tomorrow'
+  }
+  else if (utils.previousDate(today) == date){
+    return 'Yesterday'
+  }
+  else{
+    return date
+  }
+}
 
 const styles = StyleSheet.create({
   header: {
     marginTop: 100,
   },
+ 
   dateText: {
     alignSelf: 'center',
     marginTop: 10,
@@ -110,14 +174,15 @@ const styles = StyleSheet.create({
   },
   logListView: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 20
   },
   typeView: {
     flex: 1,
     height: 50,
     alignSelf: 'stretch',
     justifyContent: 'space-between',
-    backgroundColor: '#293236',
+    backgroundColor: 'rgb(41, 50, 54)',
+    // backgroundColor: 'rgba(0,0,0,0.5)',
     marginTop: 20,
     marginHorizontal: 20,
     borderTopLeftRadius: 10,
@@ -176,4 +241,38 @@ const styles = StyleSheet.create({
     width: 99,
     height: 99,
   },
-});
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  centeredView: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    // marginTop: 22
+  },
+  datebuttons:{
+    paddingTop:2,
+    marginHorizontal:20,
+    width:100
+  },
+  buttonview:{
+    justifyContent:'space-between',
+    flexDirection:'row'
+  }, 
+  overlay:{
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  }
+})
