@@ -1,2 +1,2 @@
-# FoodBus
+# React Native Food Log
 
