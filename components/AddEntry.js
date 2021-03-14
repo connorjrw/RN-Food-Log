@@ -110,6 +110,8 @@ function select(dataitem, data) {
 
 function addEntry(selectedItem, selectedType, selectedDate, navigate) {
   axios.post(api + 'addfood', {
+    food_name:selectedItem.name,
+    food_description:selectedItem.description,
     date: selectedDate,
     food_id: selectedItem._id,
     type: selectedType

@@ -1,3 +1,5 @@
+// Run app in simulator - react-native run-ios
+
 // api - node server.js
 const api = "http://connor.local:3000/"
 

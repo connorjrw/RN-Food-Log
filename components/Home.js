@@ -8,7 +8,6 @@ import utils from '../utils.js'
 import config from '../config.js'
 import GeneralButton from './GeneralButton'
 import DatePicker from 'react-native-date-picker'
-import DeleteButton from './DeleteButton'
 
 
 const api = config.api
@@ -28,6 +27,7 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
           date: selectedDate
         }
       }).then(response => {
+        console.log('response', response.data)
         setLog(response.data)
       }).catch(err => {
         console.log(err)
@@ -72,10 +72,10 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
 
             {values.map((value, i) =>
               <TouchableOpacity onPress = { () => {viewEntryItem(navigate, value)}} key={i} style={[styles.foodView, (i == values.length - 1) ? styles.curved : styles.foodView]}>
-                <Text style={styles.foodNameText}>{value.name}</Text>
+                <Text style={styles.foodNameText}>{value.food_name}</Text>
 
                 <Image
-                  source={{ url: utils.getUrl(value.recipe_id) }}
+                  source={{ url: utils.getUrl(value._id) }}
                   style={[styles.imageStyle, (i == values.length - 1) ? styles.imageCurved : styles.imageStyle]}
                 />
               </TouchableOpacity>

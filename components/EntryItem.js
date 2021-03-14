@@ -10,12 +10,13 @@ const api = config.api
 
 export default function EntryItem(props) {
     const item = props.route.params.item
+    console.log('item', item)
     return (
         <View style={styles.container}>
             <View style={styles.foodView}>
-                <Text style={styles.foodNameText}>{item.name}</Text>
+                <Text style={styles.foodNameText}>{item.food_name}</Text>
                 <FoodImage
-                    source={{ url: utils.getUrl(item.recipe_id) }}
+                    source={{ url: utils.getUrl(item._id) }}
                 />
             </View>
             <View style={styles.buttonView}>
