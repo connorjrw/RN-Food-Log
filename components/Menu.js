@@ -39,12 +39,14 @@ export default function Menu({ navigation: { navigate } }) {
       };
     }, [])
   );
+
   return (
     <ScrollView contentContainerStyle={ustyles.scrollcontainer} style = {ustyles.container}>
       {data.map(data => 
         <View key = {data._id}>
-        <TouchableOpacity onPress = { () => {changepage(navigate, data)}} style = {FLStyles.itemcontainer}>
-          <View>
+        <TouchableOpacity onPress = { () => {changepage(navigate, data)}}>
+          <View style = {FLStyles.itemcontainer}>
+          <View style = {FLStyles.name}>
             <Text style={FLStyles.item}>{data.name}</Text>
             <Text style={FLStyles.description}>{data.description}</Text>
           </View>
@@ -52,6 +54,7 @@ export default function Menu({ navigation: { navigate } }) {
           <FoodImage
             source={{url: utils.getUrl(data._id)}}
           />
+          </View>
           </View>
           </TouchableOpacity>
         </View>)}
@@ -66,6 +69,7 @@ export default function Menu({ navigation: { navigate } }) {
         </GeneralButton>
        
     </ScrollView>)
+
 }
 
 
@@ -81,6 +85,7 @@ const FLStyles = StyleSheet.create({
       fontSize: 10
     },
     itemcontainer:{
+      flex:1,
       flexDirection: 'row',
       justifyContent:'space-between',
       marginHorizontal:10,
@@ -92,6 +97,13 @@ const FLStyles = StyleSheet.create({
       borderRadius:10,
       borderWidth:0.5
     },
+    name:{
+      // paddingRight:5,
+      flex:1
+    },
+    photo:{
+      // flex:1
+    }
 })
 
 

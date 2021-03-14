@@ -27,7 +27,6 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
           date: selectedDate
         }
       }).then(response => {
-        console.log('response', response.data)
         setLog(response.data)
       }).catch(err => {
         console.log(err)
@@ -205,7 +204,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: 'white',
     marginLeft: 20,
-    borderWidth: 1,
+    borderBottomWidth: 1,
+    borderRightWidth:1,
+    borderLeftWidth:1,
     marginHorizontal: 20,
     height: 100
   },
@@ -234,12 +235,13 @@ const styles = StyleSheet.create({
     color: '#1e90ff',
   },
   imageCurved: {
-    borderBottomRightRadius: 10,
+    borderBottomRightRadius: 9,
   },
   imageStyle: {
     paddingRight: 2,
+    marginBottom:1,
     width: 99,
-    height: 99,
+    height: '100%',
   },
   modalView: {
     margin: 20,

@@ -44,24 +44,24 @@ export default function MenuItem(props) {
       let isActive = true;
       let isMounted = true;
       setId(props.route.params.data.id)
-      async function getRecipe(){
-        let result = await axios.get(api + "getrecipe", {
+      axios.get(api + "getrecipe", {
         params: {
           id: props.route.params.data.id
         }
-      })
+      }).then(result => {
       
       result = result.data[0]
-      axios.get(utils.getUrl(result._id)).then(res => {
-        setPhoto(utils.getUrl(result._id))
+      axios.get(utils.getUrl(result._id), {responseType:'blob'}).then(res => {
+        let url = utils.getUrl(result._id).toString()
+        setPhoto(url)
       }).catch(err => {
         setPhoto(utils.getUrl('none')) //Show generic picture if cannot be found on file server
       })
       setName(result.name)
       setDescription(result.description)
       setRecipe(result.recipe)
-      }
-      getRecipe()
+      })
+
       return () => {
         isMounted = false
         isActive = false
@@ -111,14 +111,15 @@ const styles = StyleSheet.create({
   },
   recipename:{
     fontSize:20,
-    color:'#1e90ff',
     backgroundColor:'#293236',
   },
   recipewrap:{
     backgroundColor:'white',
     marginTop:2,
-    marginHorizontal:2,
-    marginBottom:2
+    marginHorizontal:0.9,
+    borderBottomRightRadius:3,
+    borderBottomLeftRadius:3,
+    marginBottom:1
   },
   name: {
     color:'#1e90ff',
@@ -145,12 +146,14 @@ const styles = StyleSheet.create({
     borderRadius:5
   },
   imageStyle: {
-    borderWidth:0.5,
-    alignSelf: 'center',
-    width: 375,
+    alignSelf: 'stretch',
+    flex:1,
+    marginLeft:0.8,
+    width: '99.5%',
     height: 300,
   },
   imagewrap:{
+    // flex:1,
     borderTopWidth:0.5
   },
   button: {

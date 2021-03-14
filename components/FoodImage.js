@@ -11,10 +11,13 @@ export default function FoodImage(props) {
 }
 const styles = StyleSheet.create({
     imageStyle: {
-        alignSelf: 'flex-start',
+        alignSelf: 'stretch',
         borderRadius: 10,
         paddingRight: 2,
+        flex:1,
+        width:undefined,
+        height:undefined,
         width: 99,
-        height: 99,
+        // height: 99,
     }
 })

@@ -10,7 +10,6 @@ const api = config.api
 
 export default function EntryItem(props) {
     const item = props.route.params.item
-    console.log('item', item)
     return (
         <View style={styles.container}>
             <View style={styles.foodView}>
@@ -42,10 +41,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         flexDirection: 'column',
-        justifyContent: 'flex-start'
+        // justifyContent: 'space-between'
     },
     foodView: {
         flex: 1,
+        // height:20,
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: 'white',
@@ -55,12 +55,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     foodNameText: {
+        flex:2,
+        paddingRight:10,
         fontSize: 30,
         marginTop: 5,
         marginLeft: 10
     },
     buttonView: {
-        marginBottom: 540,
+        flex:5,
         alignSelf: 'center'
     },
 });
