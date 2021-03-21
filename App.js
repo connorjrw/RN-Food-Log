@@ -5,18 +5,23 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StatusBar, SafeAreaView } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  
   return (
     <NavigationContainer>
+            <StatusBar backgroundColor='blue' barStyle='dark-content' />
+
       <Tab.Navigator
         tabBarOptions={{
           tabBarLabel: 'Home',
           style: {
             backgroundColor: '#293236'
           },
+          
           labelStyle: {
             fontSize: 25,
           },
@@ -26,7 +31,7 @@ export default function App() {
         <Tab.Screen name="Home"
           options={{
             title: 'Home', style: {
-              color: 'red'
+              backgroundColor: 'red'
             }
           }}
 

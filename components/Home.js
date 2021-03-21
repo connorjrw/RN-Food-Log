@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView, Image, Alert, Modal, Text, Pressable} from 'react-native';
+import { StyleSheet, View, ScrollView, Image, Alert, Modal, Text, Pressable, StatusBar} from 'react-native';
 import React, { useState } from 'react';
 import ustyles from '../std-styles.js';
 import DateNavigator from './DateNavigator'
@@ -8,6 +8,8 @@ import utils from '../utils.js'
 import config from '../config.js'
 import GeneralButton from './GeneralButton'
 import DatePicker from 'react-native-date-picker'
+import LoadingIndicator from './LoadingWheel.js'
+import LoadingWheel from './LoadingWheel.js';
 
 
 const api = config.api
@@ -19,26 +21,30 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [newDate, setNewDate] = useState(new Date())
   const [foodlog, setLog] = useState([]);
+  const [loading, setLoading] = useState(true)
   useFocusEffect(
     React.useCallback(() => {
-      let isMounted = true;
+      let loading = true;
       axios.get(api + "foodlog", {
         params: {
           date: selectedDate
         }
       }).then(response => {
         setLog(response.data)
+        setLoading(false)
       }).catch(err => {
         console.log(err)
       })
       return () => {
-        isMounted = false
+        loading = true
       };
     }, [selectedDate])
   );
+  if(!loading){
   return (
     <ScrollView contentContainerStyle={ustyles.scrollcontainer} style={ustyles.container}>
       <View style = {styles.MainView}>
+
       <View style={styles.dateView}>
         <View>
           <DateNavigator
@@ -129,7 +135,9 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
       >
       </Pressable>
     </ScrollView>
-  );
+  )} else{
+    return (<LoadingWheel/>)
+  }
 }
 
 function changePage(navigate, selectedDate) {

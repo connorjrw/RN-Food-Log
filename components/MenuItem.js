@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ScrollView } from 'react-native-gesture-handler';
 import config from '../config.js'
 import utils from '../utils.js'
 import DeleteButton from './DeleteButton.js'
+import LoadingWheel from './LoadingWheel.js';
 
 const api = config.api
 const axios = require('axios');
@@ -38,6 +39,7 @@ export default function MenuItem(props) {
   const [photo, setPhoto] = useState('');
   const [recipe, setRecipe] = useState('')
   const [id, setId] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useFocusEffect(
     React.useCallback(() => {
@@ -54,8 +56,10 @@ export default function MenuItem(props) {
       axios.get(utils.getUrl(result._id), {responseType:'blob'}).then(res => {
         let url = utils.getUrl(result._id).toString()
         setPhoto(url)
+        setLoading(false)
       }).catch(err => {
         setPhoto(utils.getUrl('none')) //Show generic picture if cannot be found on file server
+        setLoading(false)
       })
       setName(result.name)
       setDescription(result.dexscription)
@@ -63,11 +67,13 @@ export default function MenuItem(props) {
       })
 
       return () => {
+        setLoading(true)
         isMounted = false
         isActive = false
       };
     }, [])
   );
+  if(!loading){
   return (
     <View style={styles.container}>
       <ScrollView style = {styles.scrollwrap}>
@@ -97,9 +103,13 @@ export default function MenuItem(props) {
         </DeleteButton>
       </View>
       </ScrollView>
-
     </View>
   );
+  } else{
+    return (
+    <LoadingWheel/>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

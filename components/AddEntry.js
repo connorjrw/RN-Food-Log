@@ -137,9 +137,10 @@ const styles = StyleSheet.create({
   },
   headerView: {
     height: 80,
+    flex:1
   },
   selectedTypeView: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'row',
     marginHorizontal: 20,
     justifyContent: 'space-between',
@@ -177,6 +178,7 @@ const styles = StyleSheet.create({
   },
   
   optionButtonView: {
+    flex:2,
     alignItems: 'center',
     marginHorizontal: 10,
   },

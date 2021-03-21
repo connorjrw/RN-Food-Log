@@ -16,9 +16,9 @@ export default function MenuNavigation() {
                     {
                         title: 'Menu',
                         headerStyle: {
-                            borderWidth: 0.5,
                             backgroundColor: 'white',
-                            height: 100
+                            borderBottomWidth:.5,
+                            height: 85
                         },
                         headerTitleStyle: {
                             fontSize: 23,
@@ -29,7 +29,17 @@ export default function MenuNavigation() {
             />
             <Stack.Screen
                 name="Food"
-                component={MenuItem}>
+                component={MenuItem}
+                options={
+                    {
+                    headerStyle : {
+                        backgroundColor: 'white',
+                            borderBottomWidth:.5,
+                            height: 85
+                    }
+                }
+            }
+                >
             </Stack.Screen>
             <Stack.Screen
                 name="Add"
