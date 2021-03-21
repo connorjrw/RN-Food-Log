@@ -9,4 +9,4 @@ Simple meal tracking app created with React Native
 ## Run App
 - react-native run-ios
 - node server.js
-- http-server ./imagees
+- http-server ./images
