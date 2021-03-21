@@ -1,9 +1,12 @@
 import React from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import ImagePicker from './ImagePicker.js'
 import config from '../config.js'
 import GeneralButton from './GeneralButton.js'
+// var dismissKeyboard = require('dismissKeyboard');
+
 
 const axios = require('axios');
 const api = config.api
@@ -39,10 +42,12 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
     }, [])
   );
   function AddPress() {
+    console.log('photo', photo)
     axios.post(api + 'addrecipe', {
       name: name,
       description: description,
       photoLocation: photo.uri,
+      photoData:photo.data,
       fileName: photo.fileName,
       recipe: recipe,
       id: id
@@ -64,15 +69,18 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
   }
 
   return (
-    <View style={styles.container}>
+    <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}
+    >
+      <View style={styles.container} >
       <View style={styles.inputView}>
         <View style={styles.inputTextView}>
           <Text style={styles.inputTitleText}>Name</Text>
         </View>
         <TextInput
-          multiline={true}
+          // multiline={false}
           style={styles.input}
           onChangeText={name => nameOnChange(name)}
+          returnKeyType="done"
           value={name}>
         </TextInput>
       </View>
@@ -81,9 +89,9 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
           <Text style={styles.inputTitleText}>Description</Text>
         </View>
         <TextInput
-          multiline={true}
-          numberOfLines={1}
+          // multiline={true}
           style={styles.input}
+          returnKeyType="done"
           onChangeText={description => descOnChange(description)}
           value={description}>
         </TextInput>
@@ -105,6 +113,7 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
             numberOfLines={10}
             style={styles.recipeInputText}
             onChangeText={recipe => recipeOnChange(recipe)}
+            returnKeyType="done"
             value={recipe}>
           </TextInput>
         </View>
@@ -118,7 +127,8 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
           buttonstyle = {styles.addButton}
           textstyle = {styles.buttonTextStyle}>
       </GeneralButton>
-    </View>
+      </View>
+    </TouchableWithoutFeedback>
   )
 }
 

@@ -1,4 +1,5 @@
 // Run app in simulator - react-native run-ios
+// Run app on iPhone - react-native run-ios --device "Cons iPhone"
 
 // api - node server.js
 const api = "http://connor.local:3000/"

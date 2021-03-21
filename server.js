@@ -11,7 +11,8 @@ app.use(express.static(__dirname));
 var fs = require('fs')
 
 var bodyParser = require('body-parser')
-app.use(bodyParser.json())
+
+app.use(bodyParser.json({limit: '50mb', extended: true}))
 
 
 var mongodb = require('mongodb');
@@ -103,11 +104,17 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         db.collection('recipes').insertOne(req.body)
           .then(result => {
             if (req.body.photoLocation) { //only if photo has been chosen
+              console.log('Hello?!?')
+              console.log('location', req.body.photoLocation.substr)
+              var base64Image = req.body.photoData
               var oldPath = req.body.photoLocation.substr(7)
               var newPath = './Images/' + result.insertedId + '.png'
-              fs.rename(oldPath, newPath, (err) => {
-                console.log('error', err)
+              fs.writeFile(newPath, base64Image, 'base64', (err) => {
+                if(err) throw err
               })
+              // fs.rename(oldPath, newPath, (err) => {
+              //   console.log('error', err)
+              // })
             }
             res.send(result.ops[0])
           })

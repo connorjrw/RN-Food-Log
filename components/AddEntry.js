@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import MenuItemButton from './MenuItemButton.js'
 import GeneralButton from './GeneralButton.js'
+import { useNavigation } from '@react-navigation/native';
 import config from '../config.js'
 
 const axios = require('axios');
@@ -13,9 +14,10 @@ export default function AddEntry(props) {
   const [data, setData] = useState([]);
   const [selectedItem, setSelectedItem] = useState([]);
   const [selectedType, setSelectedType] = useState('Breakfast')
+  const navigation = useNavigation();
 
   const selectedDate = props.route.params.date
-  const navigate = props.route.params.navigate
+  const navigate = navigation.navigate // Previously passed this in props, no need
 
   useFocusEffect(
     React.useCallback(() => {

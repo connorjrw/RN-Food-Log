@@ -58,7 +58,7 @@ export default function MenuItem(props) {
         setPhoto(utils.getUrl('none')) //Show generic picture if cannot be found on file server
       })
       setName(result.name)
-      setDescription(result.description)
+      setDescription(result.dexscription)
       setRecipe(result.recipe)
       })
 
