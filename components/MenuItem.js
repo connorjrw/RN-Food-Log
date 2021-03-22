@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ScrollView } from 'react-native-gesture-handler';
 import config from '../config.js'
 import utils from '../utils.js'
+import { useNavigation } from '@react-navigation/native';
 import DeleteButton from './DeleteButton.js'
 import LoadingWheel from './LoadingWheel.js';
 
@@ -12,19 +13,19 @@ const api = config.api
 const axios = require('axios');
 
 
-function removeFood(navigation, id) {
-  navigation.navigate('Home')
+function removeFood(navigate, id) {
+  navigate('Home')
   axios.post(api + 'removefood', {
     id: id,
   }).then(res => {
-    navigation.navigate('Home')
+    navigate('Home')
   }).catch(err => {
     console.log(err)
   })
 }
 
-function editPress(navigation, name, description, photo, recipe, id) {
-  navigation.navigate('Add', {
+function editPress(navigate, name, description, photo, recipe, id) {
+  navigate('Add', {
     name: name,
     description: description,
     photo: photo,
@@ -40,6 +41,8 @@ export default function MenuItem(props) {
   const [recipe, setRecipe] = useState('')
   const [id, setId] = useState('')
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigation().navigate;
+
 
   useFocusEffect(
     React.useCallback(() => {
@@ -93,12 +96,12 @@ export default function MenuItem(props) {
       <View style={styles.buttonwrap}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => { editPress(props.navigation, name, description, photo, recipe, id) }}
+          onPress={() => { editPress(navigate, name, description, photo, recipe, id) }}
         >
           <Text style={styles.buttontext}>Edit</Text>
         </TouchableOpacity>
         <DeleteButton 
-        onPress={() => { removeFood(props.navigation, id) }}
+        onPress={() => { removeFood(navigate, id) }}
         >
         </DeleteButton>
       </View>

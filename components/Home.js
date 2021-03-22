@@ -10,18 +10,22 @@ import GeneralButton from './GeneralButton'
 import DatePicker from 'react-native-date-picker'
 import LoadingIndicator from './LoadingWheel.js'
 import LoadingWheel from './LoadingWheel.js';
+import { useNavigation } from '@react-navigation/native';
 
 
 const api = config.api
 const axios = require('axios');
 
-export default function Home({ navigation: { navigate, goBack } }, props) {
+export default function Home() {
   var today = new Date()
   const [selectedDate, setDate] = useState(utils.formatDate(today));
   const [modalVisible, setModalVisible] = useState(false);
   const [newDate, setNewDate] = useState(new Date())
   const [foodlog, setLog] = useState([]);
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigation().navigate;
+
+
   useFocusEffect(
     React.useCallback(() => {
       let loading = true;
@@ -141,7 +145,7 @@ export default function Home({ navigation: { navigate, goBack } }, props) {
 }
 
 function changePage(navigate, selectedDate) {
-  navigate('Add Entry', { date: selectedDate, navigate: navigate })
+  navigate('Add Entry', { date: selectedDate})
 }
 function viewEntryItem(navigate, item){
   navigate('View Entry', {item:item})

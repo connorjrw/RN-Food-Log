@@ -14,10 +14,9 @@ export default function AddEntry(props) {
   const [data, setData] = useState([]);
   const [selectedItem, setSelectedItem] = useState([]);
   const [selectedType, setSelectedType] = useState('Breakfast')
-  const navigation = useNavigation();
+  const navigate = useNavigation().navigate;
 
   const selectedDate = props.route.params.date
-  const navigate = navigation.navigate // Previously passed this in props, no need
 
   useFocusEffect(
     React.useCallback(() => {

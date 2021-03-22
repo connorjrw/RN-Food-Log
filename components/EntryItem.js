@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import utils from '../utils.js'
 import config from '../config.js'
@@ -10,6 +11,7 @@ const api = config.api
 
 export default function EntryItem(props) {
     const item = props.route.params.item
+    const navigate = useNavigation().navigate;
     return (
         <View style={styles.container}>
             <View style={styles.foodView}>
@@ -19,7 +21,7 @@ export default function EntryItem(props) {
                 />
             </View>
             <View style={styles.buttonView}>
-                <DeleteButton onPress = { () => {deleteEntryItem(item._id, props.navigation)}}></DeleteButton>
+                <DeleteButton onPress = { () => {deleteEntryItem(item._id, navigation)}}></DeleteButton>
             </View>
         </View>
     );
@@ -29,7 +31,7 @@ function deleteEntryItem(id, navigation) {
     axios.post(api + 'removeentryitem', {
         id: id,
     }).then(res => {
-        navigation.navigate('Home')
+        navigate('Home')
     }).catch(err => {
         console.log(err)
     })
