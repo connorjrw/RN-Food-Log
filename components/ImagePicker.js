@@ -6,10 +6,9 @@ var ImagePickerPackage = require('react-native-image-picker');
 
 const ImagePicker = (props) => {
   const [filePath, setFilePath] = useState({ uri: props.currentPhoto });
+  console.log('file', props.currentPhoto)
   useFocusEffect(
     React.useCallback(() => {
-      console.log('as!')
-      console.log('asd',props)
       let isMounted = true;
       return () => {
         // Remove photo once we change screens

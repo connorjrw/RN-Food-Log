@@ -11,7 +11,7 @@ const api = config.api
 
 export default function EntryItem(props) {
     const item = props.route.params.item
-    const navigate = useNavigation().navigate;
+    const navigate = useNavigation().navigate
     return (
         <View style={styles.container}>
             <View style={styles.foodView}>
@@ -21,7 +21,7 @@ export default function EntryItem(props) {
                 />
             </View>
             <View style={styles.buttonView}>
-                <DeleteButton onPress = { () => {deleteEntryItem(item._id, navigation)}}></DeleteButton>
+                <DeleteButton onPress = { () => {deleteEntryItem(item._id, navigate)}}></DeleteButton>
             </View>
         </View>
     );

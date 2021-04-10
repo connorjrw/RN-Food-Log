@@ -186,6 +186,15 @@ const styles = StyleSheet.create({
     alignSelf: 'auto',
     paddingTop: 8,
     height: 40
-  }
+  },
+  inputTitleText: {
+    paddingLeft: 5,
+    fontSize: 20,
+    paddingTop: 20,
+    width: 130,
+    color: '#1e90ff',
+    fontWeight: 'bold',
+    paddingLeft: 10
+  },
 })
 

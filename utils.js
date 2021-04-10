@@ -23,7 +23,7 @@ const previousDate = (selectedDate) => {
 
 const getUrl = (url) => {
     let image = config.imageLocation +  url.toString() + '.png'
-    return image
+    return image + '?' + new Date()
   }
 
 

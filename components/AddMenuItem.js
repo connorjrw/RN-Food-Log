@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet, Text, View, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import ImagePicker from './ImagePicker.js'
 import config from '../config.js'
 import GeneralButton from './GeneralButton.js'
@@ -11,6 +11,10 @@ import GeneralButton from './GeneralButton.js'
 const axios = require('axios');
 const api = config.api
 
+function AddRecipeText(navigate, params){
+  navigate('AddRecipeText', {params:params})
+}
+
 export default function AddMenuItem({ navigation: { navigate, goBack }, route }, props) {
   //check if we are editing rather than adding a new record
   var existingPhoto = false
@@ -19,22 +23,22 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
       existingPhoto = true
     }
   }
+ 
   const [name, nameOnChange] = React.useState('');
   const [description, descOnChange] = React.useState('')
   const [recipe, recipeOnChange] = React.useState('')
   const [id, setId] = React.useState('')
   const [photo, updatePhoto] = React.useState(existingPhoto ? route.params.photo : '')
-
+  console.log(photo, 'photo?')
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log('hello')
       let isMounted = true;
       if (route.params) {
-        setId(route.params.id)
-        nameOnChange(route.params.name)
-        descOnChange(route.params.description)
-        recipeOnChange(route.params.recipe)
+        if(route.params.id) setId(route.params.id)
+        if(route.params.name) nameOnChange(route.params.name)
+        if(route.params.description) descOnChange(route.params.description)
+        if(route.params.recipe) recipeOnChange(route.params.recipe)
       }
       return () => {
         isMounted = false
@@ -108,14 +112,12 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
           <Text style={styles.inputTitleText}>Recipe</Text>
         </View>
         <View style={styles.recipeInputView}>
-          <TextInput
-            multiline={true}
-            numberOfLines={10}
+          <TouchableOpacity
             style={styles.recipeInputText}
-            onChangeText={recipe => recipeOnChange(recipe)}
-            returnKeyType="done"
+            onPress = {() => {AddRecipeText(navigate, route.params)}}
             value={recipe}>
-          </TextInput>
+              <Text>{recipe}</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <GeneralButton 
@@ -194,10 +196,5 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     height: 200,
-  },
-  recipeInputText: {
-    marginLeft: 10,
-    height: 200,
-    fontSize: 20
   }
 });

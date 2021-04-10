@@ -104,10 +104,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         db.collection('recipes').insertOne(req.body)
           .then(result => {
             if (req.body.photoLocation) { //only if photo has been chosen
-              console.log('Hello?!?')
-              console.log('location', req.body.photoLocation.substr)
               var base64Image = req.body.photoData
-              var oldPath = req.body.photoLocation.substr(7)
               var newPath = './Images/' + result.insertedId + '.png'
               fs.writeFile(newPath, base64Image, 'base64', (err) => {
                 if(err) throw err
@@ -124,16 +121,14 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         var query = { "_id": new mongodb.ObjectId(req.body.id) }
         db.collection('recipes').updateOne(query, { $set: req.body }, { upsert: true }).then(result => {
           if (req.body.photoLocation) { //only if photo has been chosen
-            var oldPath = req.body.photoLocation.substr(7)
+            var base64Image = req.body.photoData
+            // var oldPath = req.body.photoLocation.substr(7)
             var newPath = './Images/' + req.body.id + '.png'
-            fs.unlink(newPath, err => {
-              console.log('error', err)
-            })
-            console.log(oldPath, newPath)
-            fs.rename(oldPath, newPath, (err) => {
-              console.log('do nothing with error')
+            fs.writeFile(newPath, base64Image, 'base64', (err) => {
+              if(err) throw err
             })
           }
+          // res.send(result.ops[0])
           res.send(req.body)
 
         })

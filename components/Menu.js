@@ -57,7 +57,7 @@ export default function Menu({ navigation: { navigate } }) {
                 </View>
                 <View style={FLStyles.photo}>
                   <FoodImage
-                    source={{ url: utils.getUrl(data._id) }}
+                    source={{ url: utils.getUrl(data._id)}}
                   />
                 </View>
               </View>
