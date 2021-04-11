@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Header, ScrollView, Image, ActivityIndicator } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 import ustyles from '../std-styles.js'
 import GeneralButton from './GeneralButton.js'
 import config from '../config.js'
@@ -11,6 +12,7 @@ import LoadingWheel from './LoadingWheel.js'
 
 const axios = require('axios');
 const api = config.api
+
 
 function changepage(navigate, data) {
   navigate('Food', {
@@ -25,10 +27,11 @@ function changepage(navigate, data) {
   })
 }
 
-export default function Menu({ navigation: { navigate } }) {
+export default function Menu() {
   const [data, setData] = useState([]);
   const [photo, setPhoto] = useState('')
   const [loaded, setLoaded] = useState(false)
+  const navigate = useNavigation().navigate;
   useFocusEffect(
     React.useCallback(() => {
       let isMounted = true;
@@ -46,6 +49,7 @@ export default function Menu({ navigation: { navigate } }) {
   );
   if (loaded) {
     return (
+      <View style = {ustyles.container}>
       <ScrollView contentContainerStyle={ustyles.scrollcontainer} style={ustyles.container}>
         {data.map(data =>
           <View key={data._id}>
@@ -63,7 +67,8 @@ export default function Menu({ navigation: { navigate } }) {
               </View>
             </TouchableOpacity>
           </View>)}
-        <View>
+      </ScrollView>
+        <View style = {FLStyles.buttonView}>
           <GeneralButton text="Add"
             onPress={() => {
               console.log('adding,', setData)
@@ -74,7 +79,8 @@ export default function Menu({ navigation: { navigate } }) {
             paddingTop={5}>
           </GeneralButton>
         </View>
-      </ScrollView>)
+      </View>
+      )
   } else {
     return (
       <LoadingWheel/>
@@ -105,7 +111,7 @@ const FLStyles = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: 'grey',
     borderRadius: 10,
-    borderWidth: 0.5
+    borderWidth: 1
   },
   name: {
     // paddingRight:5,
@@ -122,6 +128,10 @@ const FLStyles = StyleSheet.create({
     backgroundColor: '#ecf0f1',
     padding: 8,
     backgroundColor: 'white'
+  }, 
+  buttonView:{
+    marginTop:10,
+    marginBottom:10
   }
 })
 

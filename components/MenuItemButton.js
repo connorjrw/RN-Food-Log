@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: 'grey',
     borderRadius: 10,
-    borderWidth: 0.5
+    borderWidth: 1
   },
   itemselected: {
     backgroundColor: '#293236'

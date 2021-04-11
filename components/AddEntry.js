@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 105,
     backgroundColor: 'white',
-    borderWidth: 0.5
+    borderWidth: 1
   },
   entryTypeButtonSelected: {
     backgroundColor: '#293236'
@@ -187,14 +187,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     height: 40
   },
-  inputTitleText: {
-    paddingLeft: 5,
-    fontSize: 20,
-    paddingTop: 20,
-    width: 130,
-    color: '#1e90ff',
-    fontWeight: 'bold',
-    paddingLeft: 10
-  },
+  
 })
 

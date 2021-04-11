@@ -196,5 +196,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     height: 200,
-  }
+  }, 
+  recipeInputText: {
+    marginLeft: 10,
+    height: 250,
+    fontSize: 20
+  }, 
 });

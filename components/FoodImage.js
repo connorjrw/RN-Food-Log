@@ -7,12 +7,14 @@ export default function FoodImage(props) {
         source={props.source}
         style={styles.imageStyle}
     />
-    )
+    )   
 }
 const styles = StyleSheet.create({
     imageStyle: {
         alignSelf: 'stretch',
         borderRadius: 10,
+        // borderBottomLeftRadius:0,
+        // borderTopLeftRadius:0,
         paddingRight: 2,
         flex:1,
         width:undefined,

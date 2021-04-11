@@ -19,6 +19,7 @@ export default function MenuNavigation() {
                         headerStyle: {
                             backgroundColor: 'white',
                             borderBottomWidth:.5,
+                            borderBottomColor:'grey',
                             height: 85
                         },
                         headerTitleStyle: {
@@ -35,7 +36,7 @@ export default function MenuNavigation() {
                     {
                     headerStyle : {
                         backgroundColor: 'white',
-                            borderBottomWidth:.5,
+                            borderBottomWidth:1,
                             height: 85
                     }
                 }

@@ -27,11 +27,11 @@ export default function HomeNavigation({ navigation: { navigate } }) {
                     {
                         title: 'Home',
                         headerStyle: {
-                            borderBottomWidth: .5,
+                            borderBottomWidth: 1,
                             height: 85
                         },
                         headerTitleStyle: {
-                            fontSize: 20,
+                            fontSize: 23,
                         }
                     }
                 }
