@@ -9,6 +9,6 @@ Simple meal tracking app created with React Native
 - edit config.js to match local environment
 
 ## Run App
-- react-native run-ios
-- node server.js
-- http-server ./images
+- `react-native run-ios`
+- `node server.js`
+- `http-server ./images`
