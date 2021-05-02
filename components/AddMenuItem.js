@@ -5,6 +5,8 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import ImagePicker from './ImagePicker.js'
 import config from '../config.js'
 import GeneralButton from './GeneralButton.js'
+import { useNavigation } from '@react-navigation/native';
+
 // var dismissKeyboard = require('dismissKeyboard');
 
 
@@ -15,7 +17,7 @@ function AddRecipeText(navigate, params){
   navigate('AddRecipeText', {params:params})
 }
 
-export default function AddMenuItem({ navigation: { navigate, goBack }, route }, props) {
+export default function AddMenuItem({ route }, props) {
   //check if we are editing rather than adding a new record
   var existingPhoto = false
   if (route.params) {
@@ -29,7 +31,7 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
   const [recipe, recipeOnChange] = React.useState('')
   const [id, setId] = React.useState('')
   const [photo, updatePhoto] = React.useState(existingPhoto ? route.params.photo : '')
-  console.log(photo, 'photo?')
+  const navigation = useNavigation();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -45,9 +47,8 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
       };
     }, [])
   );
-  function AddPress() {
-    console.log('photo', photo)
-    axios.post(api + 'addrecipe', {
+  function AddPress(navigation) {
+    axios.post(api + 'addmenuitem', {
       name: name,
       description: description,
       photoLocation: photo.uri,
@@ -65,7 +66,7 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
           route.params.selectedItemSet(res.data)
         }
       }
-      goBack()
+      navigation.goBack()
 
     }).catch(err => {
       console.log(err)
@@ -114,7 +115,7 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
         <View style={styles.recipeInputView}>
           <TouchableOpacity
             style={styles.recipeInputText}
-            onPress = {() => {AddRecipeText(navigate, route.params)}}
+            onPress = {() => {AddRecipeText(navigation.navigate, route.params)}}
             value={recipe}>
               <Text>{recipe}</Text>
           </TouchableOpacity>
@@ -122,7 +123,7 @@ export default function AddMenuItem({ navigation: { navigate, goBack }, route },
       </View>
       <GeneralButton 
           text = 'Add' 
-          onPress={AddPress} 
+          onPress = {() => AddPress(navigation)} 
           width = {200} 
           height = {40} 
           paddingTop = {10}

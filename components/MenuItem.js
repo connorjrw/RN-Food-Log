@@ -15,7 +15,7 @@ const axios = require('axios');
 
 function removeFood(navigate, id) {
   navigate('Home')
-  axios.post(api + 'removefood', {
+  axios.post(api + 'removemenuitem', {
     id: id,
   }).then(res => {
     navigate('Home')
@@ -49,7 +49,7 @@ export default function MenuItem(props) {
       let isActive = true;
       let isMounted = true;
       setId(props.route.params.data.id)
-      axios.get(api + "getrecipe", {
+      axios.get(api + "menuitem", {
         params: {
           id: props.route.params.data.id
         }

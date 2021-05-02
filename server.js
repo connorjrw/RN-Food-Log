@@ -19,26 +19,26 @@ var mongodb = require('mongodb');
 const MongoClient = require('mongodb').MongoClient
 MongoClient.connect(connectionString, { useUnifiedTopology: true })
   .then(client => {
-    const db = client.db('recipes')
+    const db = client.db('foodlog_db')
     console.log('Connected to Database')
 
-    app.get('/recipes', (req, res) => {
-      db.collection('recipes').find().toArray()
+    app.get('/menuitems', (req, res) => {
+      db.collection('menuitems').find().toArray()
         .then(results => {
           var reversed_results = results.reverse()
           res.send(reversed_results)
         })
     })
-    app.get('/getrecipe/', (req, res) => {
-      db.collection('recipes').find({ "_id": new mongodb.ObjectId(req.query.id) }).toArray()
+    app.get('/menuitem/', (req, res) => {
+      db.collection('menuitems').find({ "_id": new mongodb.ObjectId(req.query.id) }).toArray()
         .then(results => {
           res.send(results)
         })
     })
-    app.get('/foodlog', (req, res) => {
+    app.get('/logentries', (req, res) => {
       date_req = req.query.date
       var new_result = {};
-      db.collection('foodlog').find({ date: date_req }).toArray()
+      db.collection('logentries').find({ date: date_req }).toArray()
         .then(results => {
           (async function loop() {
             if (results.length == 0) { // Don't try to do anything when no results
@@ -76,17 +76,17 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         res.send()
       })
     })
-    app.post('/removefood', (req, res) => {
+    app.post('/removemenuitem', (req, res) => {
       var query = { "_id": new mongodb.ObjectId(req.body.id) }
-      db.collection('recipes').deleteOne(query, () => {
+      db.collection('menuitems').deleteOne(query, () => {
         res.send()
       }).catch(err => {
         console.log(err)
       })
     })
-    app.post('/addfood', (req, res) => {
+    app.post('/addentry', (req, res) => {
       console.log('res', req.body)
-      db.collection('foodlog').insertOne(req.body)
+      db.collection('logentries').insertOne(req.body)
         .then(result => {
             // Copy image from menu item to log. 
             // Double handling but we want to be able to see the record if the menu item is deleted
@@ -99,9 +99,9 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
           res.send()
         })
     })
-    app.post('/addrecipe', (req, res) => {
+    app.post('/addmenuitem', (req, res) => {
       if (!req.body.id) {
-        db.collection('recipes').insertOne(req.body)
+        db.collection('menuitems').insertOne(req.body)
           .then(result => {
             if (req.body.photoLocation) { //only if photo has been chosen
               var base64Image = req.body.photoData
@@ -119,7 +119,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       } else {
 
         var query = { "_id": new mongodb.ObjectId(req.body.id) }
-        db.collection('recipes').updateOne(query, { $set: req.body }, { upsert: true }).then(result => {
+        db.collection('menuitems').updateOne(query, { $set: req.body }, { upsert: true }).then(result => {
           if (req.body.photoLocation) { //only if photo has been chosen
             var base64Image = req.body.photoData
             // var oldPath = req.body.photoLocation.substr(7)

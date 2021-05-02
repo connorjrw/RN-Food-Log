@@ -21,7 +21,7 @@ export default function AddEntry(props) {
   useFocusEffect(
     React.useCallback(() => {
       let isMounted = true;
-      axios.get(api + "recipes").then(response => {
+      axios.get(api + "menuitems").then(response => {
         for (var item in response.data) {
           if (selectedItem['_id'] == response.data[item]['_id']) {
             response.data[item]['selected'] = 'True'

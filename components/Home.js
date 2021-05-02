@@ -29,7 +29,7 @@ export default function Home() {
   useFocusEffect(
     React.useCallback(() => {
       let loading = true;
-      axios.get(api + "foodlog", {
+      axios.get(api + "logentries", {
         params: {
           date: selectedDate
         }

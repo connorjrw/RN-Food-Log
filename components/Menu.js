@@ -36,7 +36,7 @@ export default function Menu() {
     React.useCallback(() => {
       let isMounted = true;
       setData([])
-      axios.get(api + "recipes").then(response => {
+      axios.get(api + "menuitems").then(response => {
         setData(response.data)
         setLoaded(true)
 
